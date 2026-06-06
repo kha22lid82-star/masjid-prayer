@@ -7,6 +7,19 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#ffffff">
 <title>مواقيت الصلاة</title>
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="مواقيت الصلاة">
+<link rel="apple-touch-icon" href="icon-512.png">
+<meta name="theme-color" content="#b8860b">
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;600;700&display=swap');
 
@@ -1381,7 +1394,8 @@ async function fetchApiTimes(){
   const today = new Date();
   const year  = today.getFullYear();
   // جدول 2026 مخزّن — لا حاجة للإنترنت
-  if(year <= 2026) return;
+  // جلب من API دائماً للتحقق — الجدول المدمج هو الأساس
+  // لكن نتحقق من الإنترنت للمقارنة والتحديث
 
   const key = `${year}-${today.getMonth()+1}-${today.getDate()}`;
   if(_apiCache[key]){ S.apiTimes=_apiCache[key]; _apiStatus='api'; updateApiIndicator(); refreshTimes(); buildGrid(); return; }
@@ -1453,17 +1467,14 @@ function refreshTimes(){
   const isOman = CITIES[S.city]?.country === 'OM' || S.city === 'custom';
 
   if(isOman){
-    if(year <= 2026){
-      // جدول وزارة الأوقاف 2026 — دقيق 100%
-      const muscatTimes = getMuscatAwqafTimes(today);
-      if(muscatTimes){
-        S.pTimes = adjustForLocation(muscatTimes, S.lng);
-        _apiStatus = 'awqaf';
-      } else {
-        S.pTimes = calcTimes(today, S.lat, S.lng, S.method);
-        _apiStatus = 'calc';
-      }
-    } else {
+    const muscatTimes = getMuscatAwqafTimes(today);
+    if(year <= 2026 && muscatTimes){
+      // جدول وزارة الأوقاف 2026 — دقيق 100% بدون إنترنت
+      S.pTimes = adjustForLocation(muscatTimes, S.lng);
+      _apiStatus = 'awqaf';
+      // جلب من API في الخلفية للتحقق (اختياري)
+      if(!_apiCache[`${year}-${today.getMonth()+1}-${today.getDate()}`]) fetchApiTimes();
+    } else if(year > 2026) {
       // 2027+ : استخدم API إن كان متوفراً وإلا حساب فلكي
       const key = `${year}-${today.getMonth()+1}-${today.getDate()}`;
       if(S.apiTimes && _apiCache[key]){
@@ -2024,6 +2035,7 @@ tick();
 setInterval(tick,1000);
 // Fetch API times on startup
 fetchApiTimes();
+updateApiIndicator();
 // Re-fetch daily at midnight + 30s
 setInterval(()=>{
   const n=new Date();
