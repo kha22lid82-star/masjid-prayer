@@ -74,7 +74,7 @@ html, body {
 
 /* ── GOLD DIVIDER ── */
 .gl {
-  flex-shrink:0; height:3px;
+  flex-shrink:0; height:6px;
   background: linear-gradient(90deg,transparent,#b8860b 20%,#e8c050 50%,#b8860b 80%,transparent);
   position:relative; z-index:1;
 }
@@ -88,24 +88,29 @@ html, body {
 /* All sections are z-index:1 to sit above bg */
 .sec { position:relative; z-index:1; }
 
-/* Inner safe-zone — subtle gold border at screen edges */
+/* ══ ISLAMIC FRAME ══ */
 #canvas-inner {
   position: absolute;
   inset: 0;
-  border: 16px solid rgba(184,134,11,0.15);
-  border-radius: 2px;
   pointer-events: none;
   z-index: 600;
 }
+#canvas-inner svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 
 /* ══════════════════════════════
-   HEADER  — fixed height 230px
+   HEADER  — fixed height 250px
 ══════════════════════════════ */
 .hdr {
-  flex-shrink:0; height:230px;
+  flex-shrink:0; height:250px;
   background: linear-gradient(180deg,#fdf6e3 0%,rgba(253,246,227,0) 100%);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding: 0 100px;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  padding: 0 100px 0px;
+  position:relative;
 }
 .mname {
   font-family:'Amiri',serif;
@@ -113,17 +118,20 @@ html, body {
   color: #b8860b;
   text-shadow: 0 2px 0 rgba(255,255,255,.9), 0 3px 12px rgba(184,134,11,.2);
   cursor:pointer; letter-spacing:4px; line-height:1.1;
+  flex-shrink:0;
 }
-.munder { width:50%; height:2px; background:linear-gradient(90deg,transparent,#b8860b,transparent); margin:8px auto 0; }
+.munder { width:50%; height:2px; background:linear-gradient(90deg,transparent,#b8860b,transparent); margin:8px auto 0; flex-shrink:0; }
 .hsub {
   font-family:'Amiri Quran','Amiri',serif;
   font-size:38px; color:#3a2a08;
-  margin-top:10px;
+  margin-top:6px;
   text-align:center;
   line-height:1.6;
-  min-height:60px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  height:64px;
+  overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:0;
   position:relative;
+  flex-shrink:0;
 }
 .hsub-verse { transition: opacity .8s ease, transform .8s ease; }
 .hsub-ref {
@@ -445,9 +453,9 @@ html, body {
    FOOTER  — 80px
 ══════════════════════════════ */
 .ftr {
-  flex-shrink:0; height:80px;
+  flex-shrink:0; height:90px;
   background:linear-gradient(0deg,#fdf6e3 0%,#fff 100%);
-  border-top:3px solid rgba(184,134,11,.18);
+  border-top:1px solid rgba(184,134,11,.12);
   display:flex; align-items:center; justify-content:space-between; padding:0 100px;
 }
 .ftr-dh{font-family:'Amiri',serif;font-size:38px;color:#b8860b;flex:1;text-align:center;}
@@ -674,7 +682,108 @@ button:focus, select:focus, input:focus {
   </div>
 
   <!-- Inner safe-zone frame -->
-  <div id="canvas-inner"></div>
+  <!-- ISLAMIC FRAME -->
+  <div id="canvas-inner">
+    <svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gGold" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#b8860b" stop-opacity="0"/>
+          <stop offset="25%"  stop-color="#e8c050" stop-opacity="0.9"/>
+          <stop offset="50%"  stop-color="#f5d060" stop-opacity="1"/>
+          <stop offset="75%"  stop-color="#e8c050" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#b8860b" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gGoldV" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stop-color="#b8860b" stop-opacity="0"/>
+          <stop offset="25%"  stop-color="#e8c050" stop-opacity="0.9"/>
+          <stop offset="50%"  stop-color="#f5d060" stop-opacity="1"/>
+          <stop offset="75%"  stop-color="#e8c050" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#b8860b" stop-opacity="0"/>
+        </linearGradient>
+        <!-- Corner ornament -->
+        <g id="corner">
+          <path d="M0,130 Q0,0 130,0" fill="none" stroke="#b8860b" stroke-width="6" opacity="0.65"/>
+          <path d="M0,95  Q0,0 95,0"  fill="none" stroke="#e8c050" stroke-width="3"  opacity="0.5"/>
+          <path d="M0,60  Q0,0 60,0"  fill="none" stroke="#b8860b" stroke-width="1.5" opacity="0.35"/>
+          <circle cx="20" cy="20" r="5" fill="#e8c050" opacity="0.8"/>
+          <circle cx="35" cy="8"  r="3" fill="#b8860b" opacity="0.55"/>
+          <circle cx="8"  cy="35" r="3" fill="#b8860b" opacity="0.55"/>
+          <line x1="28" y1="0" x2="0" y2="28" stroke="#e8c050" stroke-width="1.5" opacity="0.3"/>
+          <path d="M6,55 Q22,38 38,55" fill="none" stroke="#b8860b" stroke-width="1.5" opacity="0.35"/>
+          <path d="M55,6 Q38,22 55,38" fill="none" stroke="#b8860b" stroke-width="1.5" opacity="0.35"/>
+          <polygon points="20,4 24,15 35,15 26,22 30,33 20,26 10,33 14,22 5,15 16,15"
+            fill="#b8860b" opacity="0.5"/>
+        </g>
+      </defs>
+
+      <!-- ══ OUTER BORDER ══ -->
+      <line x1="130"  y1="26"    x2="950"  y2="26"    stroke="url(#gGold)"  stroke-width="5.5"/>
+      <line x1="130"  y1="1894"  x2="950"  y2="1894"  stroke="url(#gGold)"  stroke-width="5.5"/>
+      <line x1="26"   y1="130"   x2="26"   y2="1790"  stroke="url(#gGoldV)" stroke-width="5.5"/>
+      <line x1="1054" y1="130"   x2="1054" y2="1790"  stroke="url(#gGoldV)" stroke-width="5.5"/>
+
+      <!-- ══ INNER BORDER ══ -->
+      <line x1="150"  y1="46"    x2="930"  y2="46"    stroke="url(#gGold)"  stroke-width="1.5" opacity="0.4"/>
+      <line x1="150"  y1="1874"  x2="930"  y2="1874"  stroke="url(#gGold)"  stroke-width="1.5" opacity="0.4"/>
+      <line x1="46"   y1="150"   x2="46"   y2="1770"  stroke="url(#gGoldV)" stroke-width="1.5" opacity="0.4"/>
+      <line x1="1034" y1="150"   x2="1034" y2="1770"  stroke="url(#gGoldV)" stroke-width="1.5" opacity="0.4"/>
+
+      <!-- ══ CORNER ORNAMENTS ══ -->
+      <use href="#corner" transform="translate(26,26)"/>
+      <use href="#corner" transform="translate(1054,26) scale(-1,1)"/>
+      <use href="#corner" transform="translate(26,1894) scale(1,-1)"/>
+      <use href="#corner" transform="translate(1054,1894) scale(-1,-1)"/>
+
+      <!-- ══ TOP ARCH DECORATION ══ -->
+      <!-- Central arch -->
+      <path d="M350,26 Q540,130 730,26" fill="none" stroke="#b8860b" stroke-width="2.5" opacity="0.35"/>
+      <path d="M400,26 Q540,105 680,26" fill="none" stroke="#e8c050" stroke-width="1.5" opacity="0.25"/>
+      <!-- Top geometric row -->
+      <g opacity="0.5">
+        <polygon points="540,10 547,26 558,26 549,33 553,45 540,38 527,45 531,33 522,26 533,26" fill="#b8860b"/>
+        <circle cx="540" cy="26" r="5.5" fill="#f5d060"/>
+        <!-- Small flanking stars -->
+        <polygon points="430,16 433,24 441,24 435,29 438,37 430,32 422,37 425,29 419,24 427,24" fill="#b8860b" opacity="0.7"/>
+        <polygon points="650,16 653,24 661,24 655,29 658,37 650,32 642,37 645,29 639,24 647,24" fill="#b8860b" opacity="0.7"/>
+        <circle cx="430" cy="26" r="3.5" fill="#e8c050" opacity="0.8"/>
+        <circle cx="650" cy="26" r="3.5" fill="#e8c050" opacity="0.8"/>
+        <!-- Diamond chain top -->
+        <polygon points="310,20 318,26 310,32 302,26" fill="#b8860b" opacity="0.55"/>
+        <polygon points="770,20 778,26 770,32 762,26" fill="#b8860b" opacity="0.55"/>
+        <circle cx="310" cy="26" r="2.5" fill="#e8c050" opacity="0.7"/>
+        <circle cx="770" cy="26" r="2.5" fill="#e8c050" opacity="0.7"/>
+      </g>
+
+      <!-- ══ BOTTOM ARCH DECORATION ══ -->
+      <!-- Central arch -->
+      <path d="M350,1894 Q540,1790 730,1894" fill="none" stroke="#b8860b" stroke-width="2.5" opacity="0.35"/>
+      <path d="M400,1894 Q540,1815 680,1894" fill="none" stroke="#e8c050" stroke-width="1.5" opacity="0.25"/>
+      <!-- Bottom geometric row -->
+      <g opacity="0.5">
+        <polygon points="540,1910 547,1894 558,1894 549,1887 553,1875 540,1882 527,1875 531,1887 522,1894 533,1894" fill="#b8860b"/>
+        <circle cx="540" cy="1894" r="5.5" fill="#f5d060"/>
+        <polygon points="430,1904 433,1896 441,1896 435,1891 438,1883 430,1888 422,1883 425,1891 419,1896 427,1896" fill="#b8860b" opacity="0.7"/>
+        <polygon points="650,1904 653,1896 661,1896 655,1891 658,1883 650,1888 642,1883 645,1891 639,1896 647,1896" fill="#b8860b" opacity="0.7"/>
+        <circle cx="430" cy="1894" r="3.5" fill="#e8c050" opacity="0.8"/>
+        <circle cx="650" cy="1894" r="3.5" fill="#e8c050" opacity="0.8"/>
+        <polygon points="310,1888 318,1894 310,1900 302,1894" fill="#b8860b" opacity="0.55"/>
+        <polygon points="770,1888 778,1894 770,1900 762,1894" fill="#b8860b" opacity="0.55"/>
+        <circle cx="310" cy="1894" r="2.5" fill="#e8c050" opacity="0.7"/>
+        <circle cx="770" cy="1894" r="2.5" fill="#e8c050" opacity="0.7"/>
+      </g>
+
+      <!-- ══ SIDE MID ORNAMENTS ══ -->
+      <polygon points="20,954 26,944 32,954 26,964" fill="#b8860b" opacity="0.55"/>
+      <polygon points="1048,954 1054,944 1060,954 1054,964" fill="#b8860b" opacity="0.55"/>
+      <circle cx="26"   cy="960" r="4.5" fill="#f5d060" opacity="0.75"/>
+      <circle cx="1054" cy="960" r="4.5" fill="#f5d060" opacity="0.75"/>
+      <!-- Quarter-way side ornaments -->
+      <circle cx="26"   cy="480"  r="3" fill="#e8c050" opacity="0.5"/>
+      <circle cx="26"   cy="1440" r="3" fill="#e8c050" opacity="0.5"/>
+      <circle cx="1054" cy="480"  r="3" fill="#e8c050" opacity="0.5"/>
+      <circle cx="1054" cy="1440" r="3" fill="#e8c050" opacity="0.5"/>
+    </svg>
+  </div>
 
   <!-- ─── SECTIONS ─── -->
   <div class="gl"></div>
@@ -696,6 +805,10 @@ button:focus, select:focus, input:focus {
       <div class="clk-disp">
         <span id="hh">00</span><span class="colon">:</span><span id="mm">00</span><span class="colon">:</span><span id="ss">00</span>
       </div>
+      <div id="clk-period" style="
+        font-family:'Amiri',serif; font-size:56px; color:#b8860b;
+        align-self:flex-end; margin-bottom:24px; margin-right:16px;
+        font-weight:bold; opacity:.85;">ص</div>
     </div>
     <div class="dates-row">
       <!-- Day pill — always visible, gold background -->
@@ -1315,7 +1428,7 @@ function startVerseRotation(){
 }
 
 // ── STATE ──
-let S={mosqueName:'مسجد الحمد بولاية العامرات',city:'amarat',lat:23.600,lng:58.400,cityName:'العامرات',method:5,iqMin:[15,15,10,10,5,10],scrMin:[10,10,10,10,10,10],azkarDur:10,azkarDisplayMode:'rotate',azkarInterval:8,azkarSrc:'default',customAzkar:[],ann:'للاستفسار والملاحظات التواصل مع وكلاء المسجد على الأرقام: 95958817 — 99282919',annList:[],pTimes:[],iqTimes:[],apiTimes:null,lastApiDate:'',azkarIdx:0,footerIdx:0,soTimer:null,soUntil:null,soFired:{},azkarModeTimer:null,azkarModeUntil:null,azkarModeIdx:0,azkarModeInterval:null,annMarqueeIdx:0};
+let S={mosqueName:'مسجد الحمد بولاية العامرات',city:'amarat',lat:23.600,lng:58.400,cityName:'العامرات',method:5,iqMin:[15,15,10,10,5,10],scrMin:[10,10,10,10,10,10],azkarDur:10,azkarDisplayMode:'single',azkarInterval:8,azkarSrc:'default',customAzkar:[],ann:'للاستفسار والملاحظات التواصل مع وكلاء المسجد على الأرقام: 95958817 — 99282919',annList:[],pTimes:[],iqTimes:[],apiTimes:null,lastApiDate:'',azkarIdx:0,footerIdx:0,soTimer:null,soUntil:null,soFired:{},azkarModeTimer:null,azkarModeUntil:null,azkarModeIdx:0,azkarModeInterval:null,annMarqueeIdx:0};
 function loadS(){try{const d=localStorage.getItem('masjidApp9');if(d)Object.assign(S,JSON.parse(d));}catch(e){}}
 function saveS(){try{localStorage.setItem('masjidApp9',JSON.stringify({mosqueName:S.mosqueName,city:S.city,lat:S.lat,lng:S.lng,cityName:S.cityName,method:S.method,iqMin:S.iqMin,scrMin:S.scrMin,azkarDur:S.azkarDur,azkarDisplayMode:S.azkarDisplayMode,azkarInterval:S.azkarInterval,azkarSrc:S.azkarSrc,customAzkar:S.customAzkar,ann:S.ann}));}catch(e){}}
 
@@ -1332,7 +1445,13 @@ function calcTimes(date,lat,lng,method){
   let fajr=toL(cTime(jd,lat,90+m.f,true)),sunrise=toL(cTime(jd,lat,90.833,true)),dhuhr=toL(midday(jd)),asr=toL(asrT(jd,lat)),mag=toL(cTime(jd,lat,90.833,false)),isha=m.i==='90m'?fxH(mag+1.5):toL(cTime(jd,lat,90+m.i,false));
   return[fajr,sunrise,dhuhr,asr,mag,isha];
 }
-function f2hm(t){let h=Math.floor(t),m=Math.round((t-h)*60);if(m===60){h++;m=0;}h=((h%24)+24)%24;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;}
+function f2hm(t){
+  let h=Math.floor(t), m=Math.round((t-h)*60);
+  if(m===60){h++;m=0;}
+  h=((h%24)+24)%24;
+  const h12 = h % 12 || 12;
+  return `${String(h12).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
 function f2min(t){let h=Math.floor(t),m=Math.round((t-h)*60);if(m===60){h++;m=0;}return((h%24)*60+m+1440)%1440;}
 
 // ── HIJRI ──
@@ -1502,7 +1621,7 @@ function buildGrid(){
   S.pTimes.forEach((t,i)=>{
     const row=document.createElement('div');
     row.className='prow'; row.id=`pr-${i}`;
-    const iqLabel = i===1 ? 'الضحى' : f2hm(S.iqTimes[i]);
+    const iqLabel = i===1 ? f2hm(S.iqTimes[i]) : f2hm(S.iqTimes[i]);
     const iqColor = i===1 ? 'color:#7a5e00;' : '';
     row.innerHTML=`
       <div class="pname-cell">
@@ -1545,7 +1664,7 @@ function updIq(i,v){
   S.iqMin[i]=parseInt(v)||0;
   S.iqTimes[i]=fxH(S.pTimes[i]+S.iqMin[i]/60);
   const el=document.getElementById(`iqv-${i}`);
-  if(el) el.textContent = i===1 ? 'الضحى' : f2hm(S.iqTimes[i]);
+  if(el) el.textContent = f2hm(S.iqTimes[i]);
   closeIqEdit(i);
   saveS();
 }
@@ -1555,7 +1674,11 @@ let lastAzkar=0,lastFD=0;
 function fmt2(n){return String(n).padStart(2,'0');}
 function tick(){
   const now=new Date(), nowMin=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
-  document.getElementById('hh').textContent=fmt2(now.getHours());
+  const h24=now.getHours(), h12=h24%12||12, period=h24<12?'ص':'م';
+  document.getElementById('hh').textContent=fmt2(h12);
+  // Show AM/PM period next to clock
+  const periodEl=document.getElementById('clk-period');
+  if(periodEl) periodEl.textContent=period;
   document.getElementById('mm').textContent=fmt2(now.getMinutes());
   document.getElementById('ss').textContent=fmt2(now.getSeconds());
   document.getElementById('dname').textContent=AR_DAYS[now.getDay()];
@@ -1772,7 +1895,7 @@ function triggerAzkarMode(){
   S.azkarModeIdx=0;
 
   const list=getActiveAzkar();
-  const mode=S.azkarDisplayMode||'rotate';
+  const mode=S.azkarDisplayMode||'single';
 
   if(mode==='single'){
     // Show all azkar fitting the screen — no scroll
@@ -1888,7 +2011,7 @@ function dismissAzkarMode(){
 }
 
 // ── AZKAR SETTINGS MODAL ──
-let _azkarModeSel='rotate', _azkarSrcSel='default';
+let _azkarModeSel='single', _azkarSrcSel='default';
 function openAzkarModal(){
   _azkarModeSel=S.azkarDisplayMode||'rotate';
   _azkarSrcSel=S.azkarSrc||'default';
