@@ -114,11 +114,17 @@ html, body {
 }
 .mname {
   font-family:'Amiri',serif;
-  font-size: 88px;
+  font-size: 72px;
   color: #b8860b;
   text-shadow: 0 2px 0 rgba(255,255,255,.9), 0 3px 12px rgba(184,134,11,.2);
-  cursor:pointer; letter-spacing:4px; line-height:1.1;
+  cursor:pointer; letter-spacing:0px; line-height:1.1;
   flex-shrink:0;
+  white-space: nowrap;
+  width: 880px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 .munder { width:50%; height:2px; background:linear-gradient(90deg,transparent,#b8860b,transparent); margin:8px auto 0; flex-shrink:0; }
 .hsub {
@@ -985,7 +991,58 @@ button:focus, select:focus, input:focus {
 
 </div><!-- /canvas -->
 
-<!-- MODALS (outside canvas so they render at true viewport size) -->
+<!-- PREVIEW MODAL -->
+<div class="mbg" id="modal-preview">
+  <div class="modal" style="max-width:600px;">
+    <h2>▶ معاينة التطبيق</h2>
+    <p style="text-align:center;font-size:13px;color:#7a6035;margin-bottom:14px;">
+      حدد وقت أذان وإقامة وهميين — سيضيف التطبيق صلاة اختبارية مؤقتة
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <!-- Azan time -->
+      <div class="mf">
+        <label>🔔 وقت الأذان (الوهمي)</label>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:6px;direction:ltr;">
+          <input class="minput" id="prev-azan-h" type="number" min="0" max="23" style="width:70px;text-align:center;" placeholder="HH" value="12">
+          <span style="font-size:20px;color:#b8860b;font-weight:bold;">:</span>
+          <input class="minput" id="prev-azan-m" type="number" min="0" max="59" style="width:70px;text-align:center;" placeholder="MM" value="00">
+        </div>
+      </div>
+
+      <!-- Iqama time -->
+      <div class="mf">
+        <label>🕌 وقت الإقامة (الوهمي)</label>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:6px;direction:ltr;">
+          <input class="minput" id="prev-iq-h" type="number" min="0" max="23" style="width:70px;text-align:center;" placeholder="HH" value="12">
+          <span style="font-size:20px;color:#b8860b;font-weight:bold;">:</span>
+          <input class="minput" id="prev-iq-m" type="number" min="0" max="59" style="width:70px;text-align:center;" placeholder="MM" value="02">
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen off duration -->
+    <div class="mf" style="margin-top:10px;">
+      <label>⚫ مدة إطفاء الشاشة بعد الإقامة (ثانية)</label>
+      <input class="minput" id="prev-so-sec" type="number" min="5" max="120" value="15" style="width:100px;text-align:center;margin-top:6px;">
+    </div>
+
+    <!-- Azkar duration -->
+    <div class="mf">
+      <label>📿 مدة عرض الأذكار (ثانية)</label>
+      <input class="minput" id="prev-azkar-sec" type="number" min="5" max="120" value="20" style="width:100px;text-align:center;margin-top:6px;">
+    </div>
+
+    <!-- Status -->
+    <div id="prev-status" style="display:none;text-align:center;padding:10px;background:rgba(184,134,11,.1);border-radius:10px;font-family:'Amiri',serif;font-size:16px;color:#7a4000;margin-top:8px;"></div>
+
+    <div class="mact">
+      <button class="mbs" onclick="closeModal('preview')">إغلاق</button>
+      <button class="mbp" style="background:linear-gradient(135deg,#7a3030,#a04040);" onclick="stopPreview()">⏹ إيقاف المعاينة</button>
+      <button class="mbp" onclick="startPreview()">▶ بدء المعاينة</button>
+    </div>
+  </div>
+</div>
 <div class="mbg" id="modal-mosque">
   <div class="modal"><h2>✏️ اسم المسجد</h2>
     <div class="mf"><label>اسم المسجد</label><input class="minput" id="in-mosque" type="text" placeholder="مسجد النور"></div>
@@ -1191,8 +1248,8 @@ button:focus, select:focus, input:focus {
   <button class="rmenu-btn" id="rm-3" onclick="toggleAnn();closeRemoteMenu()">
     <span style="font-size:24px;">📢</span> تعديل الإعلانات
   </button>
-  <button class="rmenu-btn" id="rm-4" onclick="previewAzkar();closeRemoteMenu()">
-    <span style="font-size:24px;">📿</span> معاينة الأذكار
+  <button class="rmenu-btn" id="rm-4" onclick="openPreviewModal();closeRemoteMenu()">
+    <span style="font-size:24px;">▶️</span> معاينة التطبيق
   </button>
   <button class="rmenu-btn" id="rm-5" onclick="rotateCanvas()">
     <span style="font-size:24px;">🔄</span> تدوير الشاشة &nbsp;<span id="rotate-hint" style="font-size:16px;opacity:.6;">(طولي ↑)</span>
@@ -1610,6 +1667,136 @@ async function fetchApiTimes(){
   _apiFetching = false;
 }
 
+// ══ PREVIEW MODE ══
+let _previewInterval = null;
+let _previewActive = false;
+let _previewOrigTimes = null;
+let _previewOrigIqTimes = null;
+let _previewOrigScrMin = null;
+let _previewOrigAzkarDur = null;
+
+function openPreviewModal(){
+  // Set defaults: 2 minutes from now for azan, 4 minutes for iqama
+  const now = new Date();
+  const azanTime = new Date(now.getTime() + 2*60000);
+  const iqaTime  = new Date(now.getTime() + 4*60000);
+  document.getElementById('prev-azan-h').value = azanTime.getHours();
+  document.getElementById('prev-azan-m').value = azanTime.getMinutes();
+  document.getElementById('prev-iq-h').value   = iqaTime.getHours();
+  document.getElementById('prev-iq-m').value   = iqaTime.getMinutes();
+  const st = document.getElementById('prev-status');
+  if(st) st.style.display = 'none';
+  openModal('preview');
+}
+
+function startPreview(){
+  const azH = parseInt(document.getElementById('prev-azan-h').value) || 0;
+  const azM = parseInt(document.getElementById('prev-azan-m').value) || 0;
+  const iqH = parseInt(document.getElementById('prev-iq-h').value)   || 0;
+  const iqM2 = parseInt(document.getElementById('prev-iq-m').value)  || 0;
+  const soSec  = parseInt(document.getElementById('prev-so-sec').value)  || 15;
+  const azSec  = parseInt(document.getElementById('prev-azkar-sec').value) || 20;
+
+  const azanMin = azH*60 + azM;  // in minutes from midnight
+  const iqaMin  = iqH*60 + iqM2;
+
+  if(iqaMin <= azanMin){
+    alert('وقت الإقامة يجب أن يكون بعد وقت الأذان!');
+    return;
+  }
+
+  // Save originals
+  _previewOrigTimes   = [...S.pTimes];
+  _previewOrigIqTimes = [...S.iqTimes];
+  _previewOrigScrMin  = [...S.scrMin];
+  _previewOrigAzkarDur = S.azkarDur;
+
+  // Inject test prayer at index 0 (Fajr position — will appear as first row)
+  // Actually: add as EXTRA data by temporarily replacing Fajr times
+  // Better: store as separate preview prayer and hook into tick()
+  _previewActive = true;
+
+  // Override durations
+  S.scrMin   = S.scrMin.map(()=> soSec/60);
+  S.azkarDur = azSec/60;
+  S.soFired  = {};
+
+  // Store preview prayer times (in decimal hours)
+  window._previewAzan = azanMin / 60;
+  window._previewIqama = iqaMin / 60;
+  window._previewSoSec = soSec;
+
+  // Show status
+  const st = document.getElementById('prev-status');
+  if(st){
+    st.style.display = 'block';
+    const azStr = `${String(azH).padStart(2,'0')}:${String(azM).padStart(2,'0')}`;
+    const iqStr = `${String(iqH).padStart(2,'0')}:${String(iqM2).padStart(2,'0')}`;
+    st.innerHTML = `✅ جاري المعاينة<br>الأذان: ${azStr} — الإقامة: ${iqStr}`;
+  }
+
+  // Auto-stop after iqama + so + azkar + 30s
+  const iqaMs = iqaMin*60*1000;
+  const nowMs = (new Date().getHours()*60 + new Date().getMinutes())*60*1000;
+  const remaining = Math.max(5000, iqaMs - nowMs + (soSec + azSec + 30)*1000);
+  _previewInterval = setTimeout(stopPreview, remaining);
+
+  closeModal('preview');
+}
+
+function stopPreview(){
+  _previewActive = false;
+  if(_previewInterval){ clearTimeout(_previewInterval); _previewInterval = null; }
+
+  // Restore originals
+  if(_previewOrigTimes)    S.pTimes   = _previewOrigTimes;
+  if(_previewOrigIqTimes)  S.iqTimes  = _previewOrigIqTimes;
+  if(_previewOrigScrMin)   S.scrMin   = _previewOrigScrMin;
+  if(_previewOrigAzkarDur) S.azkarDur = _previewOrigAzkarDur;
+
+  window._previewAzan  = null;
+  window._previewIqama = null;
+  S.soFired = {};
+
+  // Dismiss any preview screens
+  dismissSO();
+  dismissAzkarMode();
+  updateApiIndicator();
+  buildGrid();
+}
+function fitMosqueName(){
+  const el = document.getElementById('mname');
+  if(!el) return;
+
+  // Max width available in canvas units (1080px canvas - 200px padding)
+  const maxW = 880;
+
+  // Start at max size and shrink until text fits
+  let size = 82;
+  el.style.whiteSpace = 'nowrap';
+  el.style.display = 'block';
+  el.style.width = maxW + 'px';
+  el.style.textAlign = 'center';
+  el.style.overflow = 'hidden';
+
+  const shrink = () => {
+    el.style.fontSize = size + 'px';
+    el.style.letterSpacing = Math.max(0, (size - 40) / 40) + 'px';
+    // Use scrollWidth vs maxW comparison
+    if(el.scrollWidth > maxW + 2 && size > 30){
+      size -= 2;
+      shrink();
+    }
+  };
+
+  // Run after fonts are ready
+  const run = () => { size = 82; shrink(); };
+  run();
+  setTimeout(run, 500);
+  setTimeout(run, 1500);
+  document.fonts && document.fonts.ready && document.fonts.ready.then(run);
+}
+
 function updateApiIndicator(){
   const el = document.getElementById('api-indicator');
   if(!el) return;
@@ -1728,7 +1915,8 @@ function updIq(i,v){
 let lastAzkar=0,lastFD=0;
 function fmt2(n){return String(n).padStart(2,'0');}
 function tick(){
-  const now=new Date(), nowMin=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
+  // new Date(Date.now()) respects preview offset when Date.now is overridden
+  const now=new Date(Date.now()), nowMin=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
   const h24=now.getHours(), h12=h24%12||12, period=h24<12?'ص':'م';
   document.getElementById('hh').textContent=fmt2(h12);
   // Show AM/PM period next to clock
@@ -1856,6 +2044,36 @@ function tick(){
     hideIqamaCdScreen();
   }
 
+  // ── Preview prayer trigger ──
+  if(_previewActive && window._previewAzan != null){
+    const azMin = window._previewAzan * 60;   // in minutes
+    const iqMin2 = window._previewIqama * 60;
+    const diffToAzan = (azMin - nowMin) * 60; // seconds
+    const diffToIq   = (iqMin2 - nowMin) * 60;
+
+    // Update countdown bar with preview prayer
+    const cdName = document.getElementById('cd-cur-name');
+    const azanEl2 = document.getElementById('cd-azan-time');
+    const iqamaEl2 = document.getElementById('cd-iqama-time');
+    const fmtSec2 = s => { const hh=Math.floor(Math.abs(s)/3600),mm=Math.floor((Math.abs(s)%3600)/60),ss2=Math.floor(Math.abs(s)%60); return `${fmt2(hh)}:${fmt2(mm)}:${fmt2(ss2)}`; };
+
+    if(cdName) cdName.textContent = '🔵 اختبار';
+
+    if(diffToAzan > 0){
+      if(azanEl2){ azanEl2.textContent = fmtSec2(diffToAzan); azanEl2.className='cd-box-time cd-azan-time'; }
+      if(iqamaEl2){ iqamaEl2.textContent = fmtSec2(diffToIq); iqamaEl2.className='cd-box-time cd-iqama-time'; }
+    } else if(diffToIq > 0){
+      if(azanEl2){ azanEl2.textContent = 'أُذِّن ✓'; azanEl2.className='cd-box-time inactive'; }
+      if(iqamaEl2){ iqamaEl2.textContent = fmtSec2(diffToIq); iqamaEl2.className='cd-box-time cd-iqama-time'; }
+    } else if(diffToIq > -5){
+      // Iqama moment — trigger screen off
+      const pk = 'preview-'+new Date().toDateString();
+      if(!S.soFired[pk]){
+        S.soFired[pk] = true;
+        setTimeout(()=>triggerSO(2), 30000); // use Dhuhr index for screen-off duration
+      }
+    }
+  }
   const ts=now.getTime()/1000;
   if(ts-lastAzkar>25){lastAzkar=ts;rotAzkar();}
   if(ts-lastFD>30){lastFD=ts;rotFD();}
@@ -2201,7 +2419,7 @@ function adjVal(id, delta){
   const min=parseInt(el.min)||0, max=parseInt(el.max)||60;
   el.value=Math.max(min,Math.min(max,(parseInt(el.value)||0)+delta));
 }
-function saveMosque(){S.mosqueName=document.getElementById('in-mosque').value||'مسجد النور';document.getElementById('mname').textContent=S.mosqueName;saveS();closeModal('mosque');}
+function saveMosque(){S.mosqueName=document.getElementById('in-mosque').value||'مسجد النور';document.getElementById('mname').textContent=S.mosqueName;fitMosqueName();saveS();closeModal('mosque');}
 function saveSettings(){
   PRAYERS.forEach((_,i)=>{const a=document.getElementById(`m-iq-${i}`),b=document.getElementById(`m-sc-${i}`);if(a)S.iqMin[i]=parseInt(a.value)||0;if(b)S.scrMin[i]=parseInt(b.value)||0;});
   S.azkarDur=parseInt(document.getElementById('m-azkar-dur').value)||10;
@@ -2230,11 +2448,17 @@ function saveLoc(){
   fetchApiTimes(); // fetch fresh times for new location
 }
 
-// ── INIT ──
+
 loadS();
 document.getElementById('mname').textContent=S.mosqueName;
 document.getElementById('ftrloc').textContent=S.cityName;
 document.getElementById('ftrdh').textContent=FDKR[0];
+// Run fitMosqueName multiple times to catch font loading on TV
+fitMosqueName();
+setTimeout(fitMosqueName, 300);
+setTimeout(fitMosqueName, 800);
+setTimeout(fitMosqueName, 2000);
+document.fonts.ready.then(fitMosqueName);
 buildGrid();
 buildMarquee();
 startVerseRotation();
@@ -2280,8 +2504,8 @@ setInterval(rotateDatePill, 5000);
 // ══════════════════════════════════════════
 // REMOTE CONTROL SYSTEM (Android TV / Smart TV)
 // ══════════════════════════════════════════
-let rmFocusIdx = 0;
-const RM_COUNT = 7; // number of menu buttons
+var rmFocusIdx = 0;  // var so it's hoisted before HTML onclick calls
+var RM_COUNT = 7;
 
 function openRemoteMenu(){
   document.getElementById('remote-menu').classList.add('on');
