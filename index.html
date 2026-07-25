@@ -274,9 +274,9 @@ html, body {
   background: #fafaf8;
   border-color: rgba(184,134,11,.08);
 }
-.prow.passed .pname { color: #8a7a60; }
-.prow.passed .ptval { color: #8a8070; }
-.prow.passed .piqval { color: #8090a0; }
+.prow.passed .pname { color: #0a0a0a; }
+.prow.passed .ptval { color: #0a0a0a; }
+.prow.passed .piqval { color: #0a0a0a; }
 .prow.passed .picon { opacity: .55; }
 
 .pname-cell { display:flex; align-items:center; gap:16px; }
@@ -290,19 +290,20 @@ html, body {
   background:rgba(184,134,11,.2); border-color:#d4a017;
   box-shadow:0 0 18px rgba(184,134,11,.35);
 }
-.pname { font-family:'Amiri',serif; font-size:54px; color:#3a2a08; line-height:1; }
+.pname { font-family:'Amiri',serif; font-size:54px; color:#0a0a0a; line-height:1; font-weight:bold; }
 .prow.active .pname { color:#b8860b; }
 
 .ptcell,.piqcell { text-align:center; }
 .ptval {
   font-family:'Amiri',serif; font-size:54px;
-  color:#120e04; direction:ltr; letter-spacing:1px;
+  color:#0a0a0a; direction:ltr; letter-spacing:1px; font-weight:700;
 }
-.prow.active .ptval { color:#3a2a08; font-weight:bold; }
+.prow.active .ptval { color:#0a0a0a; font-weight:700; }
 .piqval {
   font-family:'Amiri',serif; font-size:54px;
-  color:#0f3d7a; direction:ltr; letter-spacing:1px;
+  color:#0a0a0a; direction:ltr; letter-spacing:1px; font-weight:700;
 }
+.prow.active .piqval { color:#0a0a0a; }
 .iqedit {
   display:flex; align-items:center; justify-content:center; gap:5px; margin-top:2px;
   display: none; /* hidden by default */
@@ -672,6 +673,7 @@ button:focus, select:focus, input:focus {
     <button class="cbtn" onclick="openModal('mosque')">✏ اسم</button>
     <button class="cbtn" onclick="openModal('settings')">⚙ إعدادات</button>
     <button class="cbtn" onclick="openModal('location')">📍 موقع</button>
+    <button class="cbtn" onclick="openPreviewModal()" style="background:rgba(0,85,170,.15);border-color:rgba(0,85,170,.4);color:#0055aa;">▶ معاينة</button>
   </div>
 
   <!-- FLOATING MENU BUTTON — subtle gear icon -->
@@ -1217,11 +1219,11 @@ button:focus, select:focus, input:focus {
     <div class="mf">
       <label>طريقة الحساب الاحتياطية (عند انقطاع الإنترنت)</label>
       <select class="minput" id="in-method">
-        <option value="5" selected>عُماني — فجر 18.5° عشاء 17.5° (الأدق لعُمان)</option>
-        <option value="4">أم القرى — مكة</option>
-        <option value="2">رابطة العالم الإسلامي</option>
-        <option value="3">أمريكا الشمالية ISNA</option>
-        <option value="1">جامعة كراتشي</option>
+        <option value="5" selected>🟢 عُماني — جدول وزارة الأوقاف 2026 (الافتراضي)</option>
+        <option value="4">أم القرى — مكة (حساب فلكي)</option>
+        <option value="2">رابطة العالم الإسلامي (حساب فلكي)</option>
+        <option value="3">أمريكا الشمالية ISNA (حساب فلكي)</option>
+        <option value="1">جامعة كراتشي (حساب فلكي)</option>
       </select>
     </div>
     <div class="mact"><button class="mbs" onclick="closeModal('location')">إلغاء</button><button class="mbp" onclick="saveLoc()">تطبيق</button></div>
@@ -1591,7 +1593,7 @@ const MUSCAT_AWQAF = {
   4: [[217,342,757,978,1154,1212],[217,343,757,978,1154,1211],[216,343,757,979,1153,1211],[216,343,757,979,1152,1210],[215,343,757,979,1152,1209],[215,343,758,979,1151,1209],[214,344,758,979,1150,1208],[214,344,758,979,1150,1207],[213,344,758,979,1149,1206],[213,344,758,980,1148,1206],[212,344,758,980,1148,1205],[212,345,759,980,1147,1204],[211,345,759,980,1146,1203],[211,345,759,980,1146,1203],[210,345,759,980,1145,1202],[210,345,759,980,1144,1201],[209,346,760,980,1143,1200],[209,346,760,980,1143,1200],[208,346,760,981,1142,1199],[208,346,760,981,1141,1198],[207,346,760,981,1140,1197],[207,347,760,981,1140,1196],[206,347,761,981,1139,1196],[206,347,761,981,1138,1195],[205,347,761,981,1137,1194],[204,347,761,981,1137,1193],[204,348,761,982,1136,1193],[204,348,761,982,1135,1192],[203,348,762,982,1134,1191],[203,348,762,982,1134,1190]],
   5: [[202,348,762,982,1133,1190],[202,349,762,982,1132,1189],[201,349,762,982,1131,1188],[201,349,763,983,1131,1187],[200,349,763,983,1130,1187],[200,349,763,983,1129,1186],[199,350,763,983,1128,1185],[199,350,763,983,1128,1184],[198,350,763,983,1127,1184],[198,350,764,984,1126,1183],[197,350,764,984,1125,1182],[197,351,764,984,1125,1181],[196,351,764,984,1124,1181],[196,351,764,984,1123,1180],[195,351,765,985,1122,1179],[195,351,765,985,1122,1178],[195,352,765,985,1121,1178],[194,352,765,985,1120,1177],[194,352,765,985,1119,1176],[193,352,766,985,1119,1175],[193,352,766,986,1118,1175],[192,353,766,986,1117,1174],[192,353,766,986,1116,1173],[192,353,766,986,1116,1172],[191,353,767,986,1115,1172],[191,353,767,987,1114,1171],[191,354,767,987,1114,1170],[190,354,767,987,1113,1170],[190,354,767,987,1112,1169],[190,354,768,988,1111,1168],[189,354,768,988,1111,1168]],
   6: [[233,320,730,929,1136,1218],[233,320,730,929,1136,1218],[233,320,730,929,1136,1218],[233,320,730,929,1136,1218],[233,320,730,929,1136,1218],[233,320,731,929,1136,1218],[233,320,731,929,1137,1219],[233,320,731,929,1137,1219],[232,320,731,929,1138,1219],[232,320,731,929,1138,1220],[232,320,731,929,1138,1220],[232,320,731,930,1138,1221],[232,320,732,930,1139,1221],[232,320,732,930,1139,1221],[232,320,732,930,1139,1222],[232,320,732,930,1140,1222],[232,320,732,930,1140,1222],[232,320,733,930,1140,1223],[232,320,733,931,1141,1223],[232,320,733,931,1141,1224],[232,321,733,931,1141,1224],[232,321,733,931,1142,1224],[232,321,734,931,1142,1225],[233,321,734,931,1142,1225],[233,321,734,932,1143,1225],[233,321,734,932,1143,1225],[233,321,735,932,1143,1226],[233,321,735,932,1144,1226],[233,321,735,932,1144,1226],[233,322,735,932,1144,1227]],
-  7: [[234,322,736,933,1145,1227],[234,322,736,933,1145,1227],[234,322,736,933,1145,1228],[234,322,736,933,1146,1228],[234,322,737,933,1146,1228],[234,323,737,934,1146,1228],[235,323,737,934,1147,1228],[235,323,737,934,1147,1229],[235,323,738,934,1147,1229],[235,323,738,934,1148,1229],[235,324,738,935,1148,1230],[236,324,738,935,1148,1230],[236,324,739,935,1149,1230],[236,324,739,935,1149,1230],[236,325,739,936,1149,1230],[237,325,739,936,1150,1231],[237,325,740,936,1150,1231],[237,325,740,936,1150,1231],[238,326,740,937,1151,1231],[238,326,740,937,1151,1231],[238,326,741,937,1151,1231],[239,326,741,937,1152,1232],[239,327,741,938,1152,1232],[239,327,741,938,1152,1232],[240,327,742,938,1153,1232],[240,327,742,938,1153,1232],[240,328,742,938,1153,1232],[241,328,742,939,1153,1232],[241,328,743,939,1154,1232],[241,328,743,939,1154,1232],[242,329,743,939,1154,1233]],
+  7: [[244,329,732,936,1130,1212],[244,329,732,936,1130,1212],[244,329,732,936,1130,1213],[244,329,732,936,1131,1213],[244,329,733,936,1131,1213],[244,330,733,937,1131,1213],[245,330,733,937,1132,1213],[245,330,733,937,1132,1214],[245,330,734,937,1132,1214],[245,330,734,937,1133,1214],[245,331,734,938,1133,1215],[246,331,734,938,1133,1215],[246,331,735,938,1134,1215],[246,331,735,938,1134,1215],[246,332,735,939,1134,1215],[247,332,735,939,1135,1216],[247,332,736,939,1135,1216],[247,332,736,939,1135,1216],[248,333,736,940,1136,1216],[248,333,736,940,1136,1216],[248,333,737,940,1136,1216],[249,333,737,940,1137,1217],[249,334,737,941,1137,1217],[249,334,737,941,1137,1217],[250,334,738,941,1138,1217],[250,334,738,941,1138,1217],[250,335,738,941,1138,1217],[251,335,738,942,1138,1217],[251,335,739,942,1139,1217],[251,335,739,942,1139,1217],[252,336,739,942,1139,1218]],
   8: [[242,329,743,940,1155,1233],[243,329,744,940,1155,1233],[243,329,744,940,1155,1233],[243,330,744,940,1155,1233],[244,330,744,940,1156,1233],[244,330,744,941,1156,1233],[244,330,745,941,1156,1233],[245,331,745,941,1156,1233],[245,331,745,941,1157,1233],[246,331,745,941,1157,1233],[246,331,745,942,1157,1232],[247,331,746,942,1157,1232],[247,332,746,942,1157,1232],[247,332,746,942,1158,1232],[248,332,746,942,1158,1231],[248,332,746,942,1158,1231],[249,333,747,943,1158,1231],[249,333,747,943,1158,1231],[249,333,747,943,1158,1230],[250,333,747,943,1159,1230],[250,333,747,943,1159,1230],[251,334,747,943,1159,1229],[251,334,748,944,1159,1229],[252,334,748,944,1159,1228],[252,334,748,944,1159,1228],[252,334,748,944,1159,1227],[253,335,748,944,1159,1227],[253,335,748,944,1159,1227],[254,335,749,945,1159,1226],[254,335,749,945,1159,1225],[254,335,749,945,1159,1225]],
   9: [[255,335,749,945,1159,1224],[255,336,749,945,1159,1224],[256,336,749,945,1159,1223],[256,336,749,945,1159,1222],[256,336,750,945,1159,1222],[257,336,750,945,1159,1221],[257,337,750,945,1158,1220],[258,337,750,946,1158,1220],[258,337,750,946,1158,1219],[259,337,750,946,1158,1218],[259,337,750,946,1157,1217],[259,337,751,946,1157,1217],[260,338,751,946,1157,1216],[260,338,751,946,1157,1215],[261,338,751,946,1156,1214],[261,338,751,946,1156,1214],[262,338,751,946,1155,1213],[262,338,751,946,1155,1212],[262,339,751,946,1155,1211],[263,339,752,946,1154,1210],[263,339,752,946,1154,1209],[264,339,752,947,1153,1209],[264,339,752,947,1153,1208],[264,339,752,947,1152,1207],[265,340,752,947,1152,1206],[265,340,752,947,1151,1205],[266,340,752,947,1151,1204],[266,340,752,947,1150,1203],[266,340,753,947,1150,1202],[267,340,753,947,1149,1202]],
   10: [[267,340,753,947,1149,1201],[268,341,753,947,1148,1200],[268,341,753,947,1148,1199],[269,341,753,947,1147,1198],[269,341,753,947,1146,1197],[269,341,753,947,1146,1196],[270,341,754,947,1145,1195],[270,341,754,947,1144,1195],[271,342,754,947,1144,1194],[271,342,754,947,1143,1193],[272,342,754,947,1142,1192],[272,342,754,947,1142,1191],[272,342,754,947,1141,1190],[273,342,754,947,1140,1190],[273,342,754,947,1140,1189],[274,343,755,947,1139,1188],[274,343,755,947,1138,1187],[275,343,755,947,1138,1186],[275,343,755,947,1137,1185],[275,343,755,947,1136,1185],[276,343,755,947,1136,1184],[276,343,755,947,1135,1183],[277,344,755,947,1134,1182],[277,344,756,947,1133,1181],[278,344,756,947,1133,1181],[278,344,756,947,1132,1180],[279,344,756,947,1131,1179],[279,344,756,947,1131,1179],[279,344,756,947,1130,1178],[280,344,756,947,1129,1177],[280,345,757,947,1129,1176]],
@@ -1690,55 +1692,54 @@ function openPreviewModal(){
 }
 
 function startPreview(){
-  const azH = parseInt(document.getElementById('prev-azan-h').value) || 0;
-  const azM = parseInt(document.getElementById('prev-azan-m').value) || 0;
-  const iqH = parseInt(document.getElementById('prev-iq-h').value)   || 0;
-  const iqM2 = parseInt(document.getElementById('prev-iq-m').value)  || 0;
+  const azH  = parseInt(document.getElementById('prev-azan-h').value) || 0;
+  const azM  = parseInt(document.getElementById('prev-azan-m').value) || 0;
+  const iqH  = parseInt(document.getElementById('prev-iq-h').value)   || 0;
+  const iqM2 = parseInt(document.getElementById('prev-iq-m').value)   || 0;
   const soSec  = parseInt(document.getElementById('prev-so-sec').value)  || 15;
   const azSec  = parseInt(document.getElementById('prev-azkar-sec').value) || 20;
 
-  const azanMin = azH*60 + azM;  // in minutes from midnight
-  const iqaMin  = iqH*60 + iqM2;
+  const azanH  = azH + azM/60;   // decimal hours
+  const iqamaH = iqH + iqM2/60;
 
-  if(iqaMin <= azanMin){
-    alert('وقت الإقامة يجب أن يكون بعد وقت الأذان!');
-    return;
+  if(iqamaH <= azanH){
+    alert('وقت الإقامة يجب أن يكون بعد وقت الأذان!'); return;
   }
 
   // Save originals
-  _previewOrigTimes   = [...S.pTimes];
-  _previewOrigIqTimes = [...S.iqTimes];
-  _previewOrigScrMin  = [...S.scrMin];
+  _previewOrigTimes    = [...S.pTimes];
+  _previewOrigIqTimes  = [...S.iqTimes];
+  _previewOrigScrMin   = [...S.scrMin];
   _previewOrigAzkarDur = S.azkarDur;
 
-  // Inject test prayer at index 0 (Fajr position — will appear as first row)
-  // Actually: add as EXTRA data by temporarily replacing Fajr times
-  // Better: store as separate preview prayer and hook into tick()
+  // ── حقن الصلاة الوهمية في slot 0 (الفجر مؤقتاً) ──
+  S.pTimes  = [azanH,  ...S.pTimes.slice(1)];
+  S.iqTimes = [iqamaH, ...S.iqTimes.slice(1)];  // decimal hours directly
+
+  // Override durations with seconds-based values for quick preview
+  S.scrMin   = [soSec/60, ...S.scrMin.slice(1)];   // only slot 0
+  S.azkarDur = azSec/60;
+  S.soFired  = {}; // reset so screen-off fires again
+
   _previewActive = true;
 
-  // Override durations
-  S.scrMin   = S.scrMin.map(()=> soSec/60);
-  S.azkarDur = azSec/60;
-  S.soFired  = {};
-
-  // Store preview prayer times (in decimal hours)
-  window._previewAzan = azanMin / 60;
-  window._previewIqama = iqaMin / 60;
-  window._previewSoSec = soSec;
+  // Update UI immediately
+  buildGrid();
 
   // Show status
   const st = document.getElementById('prev-status');
   if(st){
     st.style.display = 'block';
-    const azStr = `${String(azH).padStart(2,'0')}:${String(azM).padStart(2,'0')}`;
-    const iqStr = `${String(iqH).padStart(2,'0')}:${String(iqM2).padStart(2,'0')}`;
-    st.innerHTML = `✅ جاري المعاينة<br>الأذان: ${azStr} — الإقامة: ${iqStr}`;
+    const azStr = `${fmt2(azH)}:${fmt2(azM)}`;
+    const iqStr = `${fmt2(iqH)}:${fmt2(iqM2)}`;
+    st.innerHTML = `✅ المعاينة تعمل — أذان: <b>${azStr}</b> — إقامة: <b>${iqStr}</b><br>
+      <span style="font-size:12px;color:#555;">الأحداث ستظهر تلقائياً عند حلول الوقت</span>`;
   }
 
-  // Auto-stop after iqama + so + azkar + 30s
-  const iqaMs = iqaMin*60*1000;
-  const nowMs = (new Date().getHours()*60 + new Date().getMinutes())*60*1000;
-  const remaining = Math.max(5000, iqaMs - nowMs + (soSec + azSec + 30)*1000);
+  // Auto-stop: after iqama + so + azkar + 60s buffer
+  const nowMin = new Date().getHours()*60 + new Date().getMinutes() + new Date().getSeconds()/60;
+  const iqaMin  = iqH*60 + iqM2;
+  const remaining = Math.max(5000, (iqaMin - nowMin)*60*1000 + (soSec + azSec + 60)*1000);
   _previewInterval = setTimeout(stopPreview, remaining);
 
   closeModal('preview');
@@ -1827,29 +1828,31 @@ function refreshTimes(){
   const year   = today.getFullYear();
   const isOman = CITIES[S.city]?.country === 'OM' || S.city === 'custom';
 
-  if(isOman){
+  // استخدم جدول الأوقاف فقط إذا كانت الطريقة العُمانية (5) مختارة
+  const useAwqafTable = isOman && year <= 2026 && S.method === 5;
+
+  if(useAwqafTable){
     const muscatTimes = getMuscatAwqafTimes(today);
-    if(year <= 2026 && muscatTimes){
-      // جدول وزارة الأوقاف 2026 — دقيق 100% بدون إنترنت
+    if(muscatTimes){
       S.pTimes = adjustForLocation(muscatTimes, S.lng);
       _apiStatus = 'awqaf';
-      // جلب من API في الخلفية للتحقق (اختياري)
       if(!_apiCache[`${year}-${today.getMonth()+1}-${today.getDate()}`]) fetchApiTimes();
-    } else if(year > 2026) {
-      // 2027+ : استخدم API إن كان متوفراً وإلا حساب فلكي
-      const key = `${year}-${today.getMonth()+1}-${today.getDate()}`;
-      if(S.apiTimes && _apiCache[key]){
-        const muscatCorrected = _apiCache[key];
-        S.pTimes = adjustForLocation(muscatCorrected, S.lng);
-        _apiStatus = 'api';
-      } else {
-        // حساب فلكي مؤقت + محاولة جلب في الخلفية
-        S.pTimes = calcTimes(today, S.lat, S.lng, S.method);
-        _apiStatus = 'calc';
-        fetchApiTimes();
-      }
+    } else {
+      S.pTimes = calcTimes(today, S.lat, S.lng, S.method);
+      _apiStatus = 'calc';
+    }
+  } else if(isOman && year > 2026){
+    const key = `${year}-${today.getMonth()+1}-${today.getDate()}`;
+    if(S.apiTimes && _apiCache[key]){
+      S.pTimes = adjustForLocation(_apiCache[key], S.lng);
+      _apiStatus = 'api';
+    } else {
+      S.pTimes = calcTimes(today, S.lat, S.lng, S.method);
+      _apiStatus = 'calc';
+      fetchApiTimes();
     }
   } else {
+    // طريقة حساب مختلفة أو خارج عُمان — حساب فلكي مباشر
     S.pTimes = calcTimes(today, S.lat, S.lng, S.method);
     _apiStatus = 'calc';
   }
@@ -2044,36 +2047,6 @@ function tick(){
     hideIqamaCdScreen();
   }
 
-  // ── Preview prayer trigger ──
-  if(_previewActive && window._previewAzan != null){
-    const azMin = window._previewAzan * 60;   // in minutes
-    const iqMin2 = window._previewIqama * 60;
-    const diffToAzan = (azMin - nowMin) * 60; // seconds
-    const diffToIq   = (iqMin2 - nowMin) * 60;
-
-    // Update countdown bar with preview prayer
-    const cdName = document.getElementById('cd-cur-name');
-    const azanEl2 = document.getElementById('cd-azan-time');
-    const iqamaEl2 = document.getElementById('cd-iqama-time');
-    const fmtSec2 = s => { const hh=Math.floor(Math.abs(s)/3600),mm=Math.floor((Math.abs(s)%3600)/60),ss2=Math.floor(Math.abs(s)%60); return `${fmt2(hh)}:${fmt2(mm)}:${fmt2(ss2)}`; };
-
-    if(cdName) cdName.textContent = '🔵 اختبار';
-
-    if(diffToAzan > 0){
-      if(azanEl2){ azanEl2.textContent = fmtSec2(diffToAzan); azanEl2.className='cd-box-time cd-azan-time'; }
-      if(iqamaEl2){ iqamaEl2.textContent = fmtSec2(diffToIq); iqamaEl2.className='cd-box-time cd-iqama-time'; }
-    } else if(diffToIq > 0){
-      if(azanEl2){ azanEl2.textContent = 'أُذِّن ✓'; azanEl2.className='cd-box-time inactive'; }
-      if(iqamaEl2){ iqamaEl2.textContent = fmtSec2(diffToIq); iqamaEl2.className='cd-box-time cd-iqama-time'; }
-    } else if(diffToIq > -5){
-      // Iqama moment — trigger screen off
-      const pk = 'preview-'+new Date().toDateString();
-      if(!S.soFired[pk]){
-        S.soFired[pk] = true;
-        setTimeout(()=>triggerSO(2), 30000); // use Dhuhr index for screen-off duration
-      }
-    }
-  }
   const ts=now.getTime()/1000;
   if(ts-lastAzkar>25){lastAzkar=ts;rotAzkar();}
   if(ts-lastFD>30){lastFD=ts;rotFD();}
@@ -2410,9 +2383,18 @@ function openModal(t){
   }
   if(t==='azkar') openAzkarModal();
   if(t==='location'){document.getElementById('in-city').value=S.city;document.getElementById('in-method').value=S.method;onCityChg();}
-  document.getElementById(`modal-${t}`).classList.add('on');
+  const el = document.getElementById(`modal-${t}`);
+  if(!el) return;
+  el.classList.add('on');
+  el.style.display = 'flex';
+  applyMenuRotation();
 }
-function closeModal(t){document.getElementById(`modal-${t}`).classList.remove('on');}
+function closeModal(t){
+  const el = document.getElementById(`modal-${t}`);
+  if(!el) return;
+  el.classList.remove('on');
+  el.style.display = 'none';
+}
 document.querySelectorAll('.mbg').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('on');}));
 function adjVal(id, delta){
   const el=document.getElementById(id); if(!el) return;
