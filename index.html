@@ -103,10 +103,10 @@ html, body {
 }
 
 /* ══════════════════════════════
-   HEADER  — fixed height 220px
+   HEADER  — 220px
 ══════════════════════════════ */
 .hdr {
-  flex-shrink:0; height:248px;
+  flex-shrink:0; height:220px;
   background: linear-gradient(180deg,#fdf6e3 0%,rgba(253,246,227,0) 100%);
   display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
   padding: 0 100px 0px;
@@ -126,14 +126,14 @@ html, body {
   text-overflow: ellipsis;
   display: block;
 }
-.munder { width:50%; height:2px; background:linear-gradient(90deg,transparent,#b8860b,transparent); margin:8px auto 0; flex-shrink:0; }
+.munder { width:50%; height:2px; background:linear-gradient(90deg,transparent,#b8860b,transparent); margin:6px auto 0; flex-shrink:0; }
 .hsub {
   font-family:'Amiri Quran','Amiri',serif;
-  font-size:36px; color:#3a2a08;
-  margin-top:6px;
+  font-size:34px; color:#3a2a08;
+  margin-top:4px;
   text-align:center;
-  line-height:1.55;
-  height:90px;
+  line-height:1.5;
+  height:80px;
   overflow:visible;
   display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:2px;
   position:relative;
@@ -148,16 +148,16 @@ html, body {
 @keyframes verseOut { from{opacity:1;transform:translateY(0)}   to{opacity:0;transform:translateY(-8px)} }
 
 /* ══════════════════════════════
-   CLOCK SECTION  — 252px
+   CLOCK SECTION  — 230px
 ══════════════════════════════ */
 .clk-sec {
-  flex-shrink:0; height:252px;
+  flex-shrink:0; height:230px;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding: 0 50px; gap:8px;
+  padding: 0 50px; gap:6px;
 }
 .clk-row { display:flex; align-items:center; justify-content:center; width:100%; }
 .clk-disp {
-  font-family:'Amiri',serif; font-size:170px; color:#120e04;
+  font-family:'Amiri',serif; font-size:155px; color:#120e04;
   line-height:1; letter-spacing:5px; direction:ltr; text-align:center;
   text-shadow:0 3px 8px rgba(0,0,0,.06);
 }
@@ -290,17 +290,17 @@ html, body {
   background:rgba(184,134,11,.2); border-color:#d4a017;
   box-shadow:0 0 18px rgba(184,134,11,.35);
 }
-.pname { font-family:'Amiri',serif; font-size:54px; color:#0a0a0a; line-height:1; font-weight:bold; }
+.pname { font-family:'Amiri',serif; font-size:62px; color:#0a0a0a; line-height:1; font-weight:bold; }
 .prow.active .pname { color:#b8860b; }
 
 .ptcell,.piqcell { text-align:center; }
 .ptval {
-  font-family:'Amiri',serif; font-size:54px;
+  font-family:'Amiri',serif; font-size:62px;
   color:#0a0a0a; direction:ltr; letter-spacing:1px; font-weight:700;
 }
 .prow.active .ptval { color:#0a0a0a; font-weight:700; }
 .piqval {
-  font-family:'Amiri',serif; font-size:54px;
+  font-family:'Amiri',serif; font-size:62px;
   color:#0a0a0a; direction:ltr; letter-spacing:1px; font-weight:700;
 }
 .prow.active .piqval { color:#0a0a0a; }
@@ -321,10 +321,10 @@ html, body {
 .piqval:hover { text-decoration: underline dotted rgba(15,61,122,.4); }
 
 /* ══════════════════════════════
-   COUNTDOWN BAR  — 210px — dual counters
+   COUNTDOWN BAR  — 190px
 ══════════════════════════════ */
 .cdbar {
-  flex-shrink:0; height:210px;
+  flex-shrink:0; height:190px;
   background:linear-gradient(135deg,#fdf6e3,#faf4e6);
   border-top:2px solid rgba(184,134,11,.18);
   border-bottom:2px solid rgba(184,134,11,.18);
@@ -394,7 +394,7 @@ html, body {
    BOTTOM — announcements full width 180px
 ══════════════════════════════ */
 .bot {
-  flex-shrink:0; height:160px;
+  flex-shrink:0; height:150px;
   display:flex; flex-direction:column;
   border-top:2px solid rgba(184,134,11,.2);
   background:#fffdf7;
@@ -457,12 +457,12 @@ html, body {
 }
 
 .ftr {
-  flex-shrink:0; height:96px;
+  flex-shrink:0; height:90px;
   background:linear-gradient(0deg,#fdf6e3 0%,#fff 100%);
   border-top:1px solid rgba(184,134,11,.12);
   display:flex; align-items:center; justify-content:space-between;
   padding:0 100px;
-  margin-bottom:30px;
+  margin-bottom:26px;
 }
 .ftr-dh{font-family:'Amiri',serif;font-size:36px;color:#b8860b;flex:1;text-align:center;}
 .ftr-loc{font-size:24px;color:#7a6035;white-space:nowrap;}
@@ -822,8 +822,8 @@ button:focus, select:focus, input:focus {
       <div class="day-pill">
         <span class="day-pill-text" id="dname">-</span>
       </div>
-      <!-- Rotating date pill: hijri ↔ gregorian every 5s -->
-      <div class="date-pill">
+      <!-- Rotating date pill: hijri ↔ gregorian every 5s — click to edit hijri -->
+      <div class="date-pill" onclick="openHijriEdit()" style="cursor:pointer;" title="اضغط لتعديل التاريخ الهجري">
         <span class="date-pill-icon" id="date-icon">🌙</span>
         <div class="date-pill-content">
           <span class="date-pill-val" id="date-val">...</span>
@@ -992,6 +992,41 @@ button:focus, select:focus, input:focus {
   <div class="gl"></div>
 
 </div><!-- /canvas -->
+
+<!-- HIJRI DATE EDIT MODAL -->
+<div class="mbg" id="modal-hijri">
+  <div class="modal" style="max-width:500px;">
+    <h2>🌙 تعديل التاريخ الهجري</h2>
+    <p style="text-align:center;font-size:13px;color:#7a6035;margin-bottom:14px;">أدخل التاريخ الهجري الصحيح حسب التقويم العُماني</p>
+    <div style="display:flex;gap:10px;align-items:flex-end;justify-content:center;margin:16px 0;direction:rtl;flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:4px;">اليوم</label>
+        <input class="minput" id="h-day" type="number" min="1" max="30" style="width:80px;text-align:center;">
+      </div>
+      <div style="text-align:center;">
+        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:4px;">الشهر</label>
+        <select class="minput" id="h-month" style="font-size:16px;width:160px;">
+          <option value="1">محرم</option><option value="2">صفر</option>
+          <option value="3">ربيع الأول</option><option value="4">ربيع الثاني</option>
+          <option value="5">جمادى الأولى</option><option value="6">جمادى الآخرة</option>
+          <option value="7">رجب</option><option value="8">شعبان</option>
+          <option value="9">رمضان</option><option value="10">شوال</option>
+          <option value="11">ذو القعدة</option><option value="12">ذو الحجة</option>
+        </select>
+      </div>
+      <div style="text-align:center;">
+        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:4px;">السنة</label>
+        <input class="minput" id="h-year" type="number" min="1440" max="1500" style="width:100px;text-align:center;">
+      </div>
+    </div>
+    <p style="text-align:center;font-size:12px;color:#aaa;">💡 اضغط تلقائي لاسترجاع الحساب الفلكي</p>
+    <div class="mact">
+      <button class="mbs" onclick="closeModal('hijri')">إلغاء</button>
+      <button class="mbp" onclick="resetHijriAuto()" style="background:linear-gradient(135deg,#166630,#1a7a3c);">🔄 تلقائي</button>
+      <button class="mbp" onclick="saveHijriManual()">حفظ</button>
+    </div>
+  </div>
+</div>
 
 <!-- PREVIEW MODAL -->
 <div class="mbg" id="modal-preview">
@@ -1569,8 +1604,87 @@ function f2hm(t){
 function f2min(t){let h=Math.floor(t),m=Math.round((t-h)*60);if(m===60){h++;m=0;}return((h%24)*60+m+1440)%1440;}
 
 // ── HIJRI ──
+// ── HIJRI MANUAL EDIT ──
+let _hijriManual = null; // {day, month, year, offset} manual override
+const HIJRI_MONTHS = ['محرم','صفر','ربيع الأول','ربيع الثاني','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+
+function openHijriEdit(){
+  // Parse current hijri string to pre-fill fields
+  const cur = window._hijriStr || toHijri(new Date());
+  const parts = cur.split(' ');
+  const day  = parseInt(parts[0]) || 1;
+  const mon  = HIJRI_MONTHS.indexOf(parts[1]) + 1 || 1;
+  const year = parseInt(parts[2]) || 1448;
+  document.getElementById('h-day').value   = day;
+  document.getElementById('h-month').value = mon;
+  document.getElementById('h-year').value  = year;
+  openModal('hijri');
+}
+
+function saveHijriManual(){
+  const d  = parseInt(document.getElementById('h-day').value)   || 1;
+  const m  = parseInt(document.getElementById('h-month').value) || 1;
+  const y  = parseInt(document.getElementById('h-year').value)  || 1448;
+  // Calculate offset: how many days from auto hijri to manual
+  const autoStr = toHijri(new Date());
+  const autoParts = autoStr.split(' ');
+  const autoD = parseInt(autoParts[0]);
+  // Store manual override + offset for future dates
+  const hijriStr = `${d} ${HIJRI_MONTHS[m-1]} ${y} هـ`;
+  // Calculate day offset from today's auto vs manual
+  const autoTotalDays = parseInt(autoParts[2])*354 + (HIJRI_MONTHS.indexOf(autoParts[1]))*30 + autoD;
+  const manTotalDays  = y*354 + (m-1)*30 + d;
+  window._hijriOffset = manTotalDays - autoTotalDays;
+  window._hijriStr = hijriStr;
+  _hijriFromApi = null; // clear API cache
+  // Update display immediately
+  const valEl = document.getElementById('date-val');
+  const iconEl = document.getElementById('date-icon');
+  if(valEl){ valEl.textContent = hijriStr; }
+  if(iconEl){ iconEl.textContent = '🌙'; }
+  // Save to localStorage
+  try{ localStorage.setItem('hijriOffset', window._hijriOffset); } catch(e){}
+  closeModal('hijri');
+}
+
+function resetHijriAuto(){
+  window._hijriOffset = 0;
+  _hijriFromApi = null;
+  try{ localStorage.removeItem('hijriOffset'); } catch(e){}
+  window._hijriStr = toHijri(new Date());
+  const valEl = document.getElementById('date-val');
+  if(valEl) valEl.textContent = window._hijriStr;
+  updateHijriFromApi();
+  closeModal('hijri');
+}
+
+
+let _hijriFromApi = null; // {date, hijri} cached
+
+async function fetchHijriDate(date){
+  const d = date.getDate(), m = date.getMonth()+1, y = date.getFullYear();
+  const key = `${d}-${m}-${y}`;
+  if(_hijriFromApi && _hijriFromApi.key === key) return _hijriFromApi.hijri;
+  try{
+    const res = await fetch(`https://api.aladhan.com/v1/gToH/${d}-${m}-${y}`);
+    const data = await res.json();
+    if(data.code===200 && data.data?.hijri){
+      const h = data.data.hijri;
+      const months_ar = ['محرم','صفر','ربيع الأول','ربيع الثاني','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
+      const mn = months_ar[parseInt(h.month.number)-1] || h.month.ar;
+      const hijriStr = `${h.day} ${mn} ${h.year} هـ`;
+      _hijriFromApi = { key, hijri: hijriStr };
+      return hijriStr;
+    }
+  } catch(e){}
+  return null;
+}
+
 function toHijri(date){
-  const y=date.getFullYear(),mo=date.getMonth()+1,d=date.getDate();
+  // حساب محلي مع تصحيح للتقويم العُماني
+  const offset = (window._hijriOffset || 0) + 2; // +2 تصحيح عُماني افتراضي
+  const adjDate = new Date(date.getTime() + offset*86400000);
+  const y=adjDate.getFullYear(), mo=adjDate.getMonth()+1, d=adjDate.getDate();
   let jd=Math.floor((1461*(y+4716+Math.floor((mo-14)/12)))/4)+Math.floor((367*(mo-2-12*Math.floor((mo-14)/12)))/12)-Math.floor(3*(Math.floor((y+4900+Math.floor((mo-14)/12))/100))/4)+d-1401;
   let l=jd-1948440+10632,n=Math.floor((l-1)/10631);l=l-10631*n+354;
   let j=Math.floor((10985-l)/5316)*Math.floor(50*l/17719)+Math.floor(l/5670)*Math.floor(43*l/15238);
@@ -1578,6 +1692,28 @@ function toHijri(date){
   let hm=Math.floor(24*(l-1)/709),hd=l-Math.floor(709*hm/24),hy=30*n+j-30;
   const M=['محرم','صفر','ربيع الأول','ربيع الثاني','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'];
   return`${hd} ${M[hm-1]} ${hy} هـ`;
+}
+
+// تحميل الأوفست المحفوظ
+try{
+  const saved = localStorage.getItem('hijriOffset');
+  if(saved !== null) window._hijriOffset = parseInt(saved);
+} catch(e){}
+window._hijriOffset = window._hijriOffset || 0;
+
+// تحديث التاريخ الهجري من API ثم تحديث الشاشة
+async function updateHijriFromApi(){
+  const now = new Date();
+  const hijri = await fetchHijriDate(now);
+  if(hijri){
+    window._hijriStr = hijri;
+    // إذا كان الوضع الحالي هجرياً، حدّثه فوراً
+    const valEl = document.getElementById('date-val');
+    const iconEl = document.getElementById('date-icon');
+    if(valEl && iconEl && iconEl.textContent === '🌙'){
+      valEl.textContent = hijri;
+    }
+  }
 }
 const AR_DAYS=['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 const AR_MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
@@ -2464,25 +2600,40 @@ function rotateDatePill(){
   const valEl  = document.getElementById('date-val');
   const iconEl = document.getElementById('date-icon');
   if(!valEl) return;
+  // Always recalculate from current date
+  const now = new Date(Date.now());
+  window._hijriStr = toHijri(now);
+  window._gregStr  = `${now.getDate()} ${AR_MONTHS[now.getMonth()]} ${now.getFullYear()} م`;
   valEl.style.animation = 'dateSlideOut .4s ease forwards';
   setTimeout(()=>{
     _dateShowHijri = !_dateShowHijri;
     if(_dateShowHijri){
       iconEl.textContent = '🌙';
-      valEl.textContent  = window._hijriStr || '...';
+      valEl.textContent  = window._hijriStr;
     } else {
       iconEl.textContent = '📅';
-      valEl.textContent  = window._gregStr  || '...';
+      valEl.textContent  = window._gregStr;
     }
     valEl.style.animation = 'dateSlideIn .4s ease forwards';
   }, 420);
 }
-// Init pill with hijri immediately
+// Init pill
 window._hijriStr = toHijri(new Date());
 window._gregStr  = `${new Date().getDate()} ${AR_MONTHS[new Date().getMonth()]} ${new Date().getFullYear()} م`;
 document.getElementById('date-val').textContent  = window._hijriStr;
 document.getElementById('date-icon').textContent = '🌙';
 setInterval(rotateDatePill, 5000);
+// Fetch accurate Hijri from API
+updateHijriFromApi();
+// Refresh Hijri daily at midnight
+setInterval(()=>{
+  const n=new Date();
+  if(n.getHours()===0&&n.getMinutes()===0){
+    _hijriFromApi=null;
+    updateHijriFromApi();
+    window._gregStr=`${n.getDate()} ${AR_MONTHS[n.getMonth()]} ${n.getFullYear()} م`;
+  }
+}, 60000);
 // ══════════════════════════════════════════
 // REMOTE CONTROL SYSTEM (Android TV / Smart TV)
 // ══════════════════════════════════════════
