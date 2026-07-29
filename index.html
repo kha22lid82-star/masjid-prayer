@@ -1005,14 +1005,22 @@ button:focus, select:focus, input:focus {
   <div class="modal" style="max-width:500px;">
     <h2>🌙 تعديل التاريخ الهجري</h2>
     <p style="text-align:center;font-size:13px;color:#7a6035;margin-bottom:14px;">أدخل التاريخ الهجري الصحيح حسب التقويم العُماني</p>
-    <div style="display:flex;gap:10px;align-items:flex-end;justify-content:center;margin:16px 0;direction:rtl;flex-wrap:wrap;">
+    <div style="display:flex;gap:14px;align-items:flex-end;justify-content:center;margin:16px 0;direction:rtl;flex-wrap:wrap;">
+
+      <!-- اليوم -->
       <div style="text-align:center;">
-        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:4px;">اليوم</label>
-        <input class="minput" id="h-day" type="number" min="1" max="30" style="width:80px;text-align:center;">
+        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:6px;">اليوم</label>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button onclick="adjVal('h-day',1)" style="width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(184,134,11,.4);background:rgba(184,134,11,.1);font-size:18px;cursor:pointer;color:#7a6035;">+</button>
+          <input class="minput" id="h-day" type="number" min="1" max="30" style="width:70px;text-align:center;">
+          <button onclick="adjVal('h-day',-1)" style="width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(184,134,11,.4);background:rgba(184,134,11,.1);font-size:18px;cursor:pointer;color:#7a6035;">−</button>
+        </div>
       </div>
+
+      <!-- الشهر -->
       <div style="text-align:center;">
-        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:4px;">الشهر</label>
-        <select class="minput" id="h-month" style="font-size:16px;width:160px;">
+        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:6px;">الشهر</label>
+        <select class="minput" id="h-month" style="font-size:15px;width:150px;">
           <option value="1">محرم</option><option value="2">صفر</option>
           <option value="3">ربيع الأول</option><option value="4">ربيع الثاني</option>
           <option value="5">جمادى الأولى</option><option value="6">جمادى الآخرة</option>
@@ -1021,9 +1029,15 @@ button:focus, select:focus, input:focus {
           <option value="11">ذو القعدة</option><option value="12">ذو الحجة</option>
         </select>
       </div>
+
+      <!-- السنة -->
       <div style="text-align:center;">
-        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:4px;">السنة</label>
-        <input class="minput" id="h-year" type="number" min="1440" max="1500" style="width:100px;text-align:center;">
+        <label style="font-size:13px;color:#7a6035;display:block;margin-bottom:6px;">السنة</label>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button onclick="adjVal('h-year',1)" style="width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(184,134,11,.4);background:rgba(184,134,11,.1);font-size:18px;cursor:pointer;color:#7a6035;">+</button>
+          <input class="minput" id="h-year" type="number" min="1440" max="1500" style="width:86px;text-align:center;">
+          <button onclick="adjVal('h-year',-1)" style="width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(184,134,11,.4);background:rgba(184,134,11,.1);font-size:18px;cursor:pointer;color:#7a6035;">−</button>
+        </div>
       </div>
     </div>
     <p style="text-align:center;font-size:12px;color:#aaa;">💡 اضغط تلقائي لاسترجاع الحساب الفلكي</p>
@@ -1651,23 +1665,32 @@ function applyBgTheme(id, save=true){
   const glColor = isDark ? 'rgba(232,192,80,0.4)' : 'rgba(184,134,11,0.5)';
   style.textContent = `
     #canvas { background: ${t.canvas} !important; }
-    .prow { background: ${rowBg} !important; }
-    .prow.active { background: ${isDark ? 'rgba(184,134,11,0.2)' : 'linear-gradient(135deg,#fffbef,#fdf5d8)'} !important; }
-    .prow.passed { background: ${isDark ? 'rgba(255,255,255,0.04)' : '#fafaf8'} !important; }
-    .pname, .ptval, .piqval { color: ${txtCol} !important; }
-    .prow.active .pname { color: #e8c050 !important; }
+    .prow { background: ${rowBg} !important; border-color: rgba(184,134,11,0.2) !important; }
+    .prow.active { background: ${isDark ? 'rgba(184,134,11,0.25)' : 'linear-gradient(135deg,#fffbef,#fdf5d8)'} !important; border-color: #d4a017 !important; }
+    .prow.passed { background: ${rowBg} !important; border-color: rgba(184,134,11,0.15) !important; }
+    .pname { color: ${txtCol} !important; }
+    .ptval { color: ${txtCol} !important; }
+    .piqval { color: ${txtCol} !important; }
+    .prow.passed .pname { color: ${txtCol} !important; opacity: 0.85; }
+    .prow.passed .ptval { color: ${txtCol} !important; opacity: 0.85; }
+    .prow.passed .piqval { color: ${txtCol} !important; opacity: 0.85; }
+    .prow.passed .picon { opacity: 0.6; }
+    .prow.active .pname { color: #e8c050 !important; opacity: 1; }
     .hdr { background: ${isDark ? 'linear-gradient(180deg,rgba(184,134,11,0.15),transparent)' : 'linear-gradient(180deg,#fdf6e3,transparent)'} !important; }
     .clk-disp { color: ${txtCol} !important; }
+    .clk-sec { background: ${t.canvas} !important; }
     .mname { color: ${isDark ? '#e8c050' : '#b8860b'} !important; }
-    .gl { background: ${isDark ? 'linear-gradient(90deg,transparent,rgba(232,192,80,0.5),transparent)' : 'linear-gradient(90deg,transparent,#b8860b,transparent)'} !important; }
-    .ftr { background: ${isDark ? 'linear-gradient(0deg,rgba(184,134,11,0.1),transparent)' : 'linear-gradient(0deg,#fdf6e3,#fff)'} !important; }
-    .bot { background: ${isDark ? 'rgba(255,255,255,0.03)' : '#fffdf7'} !important; }
-    .cdbar { background: ${isDark ? 'linear-gradient(135deg,rgba(184,134,11,0.12),rgba(184,134,11,0.08))' : 'linear-gradient(135deg,#fdf6e3,#faf4e6)'} !important; }
-    .pgrid-hdr span { color: ${isDark ? 'rgba(232,192,80,0.7)' : '#7a6035'} !important; }
-    .date-pill { background: ${isDark ? 'rgba(232,192,80,0.12)' : '#fdf6e3'} !important; border-color: ${isDark ? 'rgba(232,192,80,0.3)' : 'rgba(184,134,11,0.2)'} !important; }
-    .date-pill-val { color: ${isDark ? '#e8c050' : '#7a4000'} !important; }
+    .gl { background: linear-gradient(90deg,transparent,${isDark ? 'rgba(232,192,80,0.5)' : '#b8860b'},transparent) !important; }
+    .ftr { background: ${isDark ? 'rgba(184,134,11,0.08)' : 'linear-gradient(0deg,#fdf6e3,#fff)'} !important; }
     .ftr-dh { color: ${isDark ? '#e8c050' : '#b8860b'} !important; }
     .ftr-loc, .ftr-v { color: ${isDark ? 'rgba(232,192,80,0.6)' : '#7a6035'} !important; }
+    .bot { background: ${isDark ? 'rgba(255,255,255,0.03)' : '#fffdf7'} !important; }
+    .cdbar { background: ${isDark ? 'rgba(184,134,11,0.1)' : 'linear-gradient(135deg,#fdf6e3,#faf4e6)'} !important; }
+    .pgrid-hdr span { color: ${isDark ? 'rgba(232,192,80,0.7)' : '#7a6035'} !important; }
+    .date-pill { background: ${isDark ? 'rgba(232,192,80,0.1)' : '#fdf6e3'} !important; }
+    .date-pill-val { color: ${isDark ? '#e8c050' : '#7a4000'} !important; }
+    .ann-panel, .ann-label, .bot { color: ${txtCol} !important; }
+    .rows-wrap { background: ${t.canvas} !important; }
   `;
   if(save) try{ localStorage.setItem('bgTheme', id); } catch(e){}
   // Update theme grid selection
