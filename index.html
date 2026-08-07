@@ -21,14 +21,14 @@ if('serviceWorker' in navigator){
 }
 </script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;600;700;900&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
 html, body {
   width: 100vw; height: 100vh;
   overflow: hidden;
-  background: #fff;
+  background: var(--bg, #fff);
   font-family: 'Scheherazade New','Amiri',serif;
   touch-action: none;
   user-select: none;
@@ -46,10 +46,19 @@ html, body {
   height: 1920px;
   transform-origin: top left;
   /* scale set by JS */
-  background: #fff;
+  background: var(--bg, #fff);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  /* Theme CSS variables — changed by applyBgTheme() */
+  --bg:       #ffffff;
+  --bg-alt:   #fdf9f2;
+  --bg-sec:   #fffdf7;
+  --bg-cd:    #faf4e6;
+  --bg-ftr:   #fdf6e3;
+  --txt:      #0a0a0a;
+  --gold:     #b8860b;
+  --gold-dim: rgba(184,134,11,0.5);
 }
 
 /* ── BACKGROUNDS ── */
@@ -107,7 +116,7 @@ html, body {
 ══════════════════════════════ */
 .hdr {
   flex-shrink:0; height:220px;
-  background: linear-gradient(180deg,#fdf6e3 0%,rgba(253,246,227,0) 100%);
+  background: var(--bg);
   display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
   padding: 0 100px 0px;
   position:relative;
@@ -154,6 +163,7 @@ html, body {
   flex-shrink:0; height:230px;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   padding: 0 50px; gap:6px;
+  background: var(--bg);
 }
 .clk-row { display:flex; align-items:center; justify-content:center; width:100%; }
 .clk-disp {
@@ -231,8 +241,8 @@ html, body {
   flex-shrink:0;
 }
 .th {
-  text-align:center; font-family:'Amiri',serif;
-  font-size:42px; color:#b8860b; letter-spacing:2px;
+  text-align:center; font-family:'Scheherazade New','Amiri',serif;
+  font-size:50px; color:#b8860b; letter-spacing:2px; font-weight:800;
 }
 .th:first-child { text-align:right; }
 
@@ -250,7 +260,7 @@ html, body {
   padding: 0 12px;
   border-radius:18px;
   border:1.5px solid rgba(184,134,11,.16);
-  background:#fdf9f2;
+  background: var(--bg);
   position:relative; overflow:hidden;
   transition: all .4s ease;
 }
@@ -328,11 +338,11 @@ html, body {
 .piqval:hover { text-decoration: underline dotted rgba(15,61,122,.4); }
 
 /* ══════════════════════════════
-   COUNTDOWN BAR  — 190px
+   COUNTDOWN BAR  — 220px
 ══════════════════════════════ */
 .cdbar {
-  flex-shrink:0; height:190px;
-  background:linear-gradient(135deg,#fdf6e3,#faf4e6);
+  flex-shrink:0; height:220px;
+  background:var(--bg-cd);
   border-top:2px solid rgba(184,134,11,.18);
   border-bottom:2px solid rgba(184,134,11,.18);
   display:flex; flex-direction:column;
@@ -345,13 +355,13 @@ html, body {
   font-family:'Amiri',serif;
 }
 .cd-current-name {
-  font-size:36px; color:#b8860b;
+  font-size:44px; color:#b8860b; font-weight:800;
 }
 .cd-arrow {
-  font-size:28px; color:rgba(184,134,11,.4);
+  font-size:34px; color:rgba(184,134,11,.4);
 }
 .cd-next-name {
-  font-size:36px; color:#7a6035;
+  font-size:44px; color:#7a6035; font-weight:700;
 }
 /* Two counters row */
 .cd-counters {
@@ -369,19 +379,19 @@ html, body {
   padding: 0 20px;
 }
 .cd-box-lbl {
-  font-size:26px; color:#7a6035;
+  font-size:34px; color:#7a6035; font-weight:700;
   display:flex; align-items:center; gap:8px;
 }
-.cd-box-lbl::before { content:''; display:inline-block; width:10px; height:10px; border-radius:50%; }
+.cd-box-lbl::before { content:''; display:inline-block; width:14px; height:14px; border-radius:50%; }
 .cd-azan-lbl::before  { background:#166630; }
 .cd-iqama-lbl::before { background:#0f3d7a; }
 .cd-box-time {
-  font-family:'Amiri',serif; font-size:76px; letter-spacing:3px;
+  font-family:'Scheherazade New','Amiri',serif; font-size:100px; font-weight:900; letter-spacing:4px;
   direction:ltr; line-height:1; transition:color .5s;
 }
-.cd-azan-time  { color:#166630; text-shadow:0 2px 8px rgba(22,102,48,.12); }
-.cd-iqama-time { color:#0f3d7a; text-shadow:0 2px 8px rgba(15,61,122,.12); }
-.cd-box-time.inactive { color:#b0a898; text-shadow:none; font-size:52px; }
+.cd-azan-time  { color:#166630; }
+.cd-iqama-time { color:#0f3d7a; }
+.cd-box-time.inactive { color:#b0a898; font-size:72px; }
 
 /* Progress row */
 .cd-progress-row {
@@ -401,17 +411,17 @@ html, body {
    BOTTOM — announcements full width 180px
 ══════════════════════════════ */
 .bot {
-  flex-shrink:0; height:150px;
+  flex-shrink:0; height:130px;
   display:flex; flex-direction:column;
   border-top:2px solid rgba(184,134,11,.2);
-  background:#fffdf7;
+  background: var(--bg);
 }
 /* Azkar fullscreen overlay */
 @keyframes azkarPop{0%{opacity:0;transform:scale(.93) translateY(14px)}60%{opacity:1;transform:scale(1.02) translateY(-3px)}100%{opacity:1;transform:scale(1) translateY(0)}}
 
 .ann-panel {
-  flex:1; padding:16px 100px 14px;
-  display:flex; flex-direction:column; justify-content:center; gap:10px;
+  flex:1; padding:10px 100px;
+  display:flex; flex-direction:column; justify-content:center; gap:8px;
 }
 .ann-hdr{display:flex;align-items:center;justify-content:space-between;}
 .ann-ttl{
@@ -427,18 +437,17 @@ html, body {
 }
 /* Marquee full width */
 .ann-marquee-wrap {
-  overflow:hidden; position:relative; height:90px;
+  overflow:hidden; position:relative; height:110px;
   display:flex; align-items:center;
-  background:linear-gradient(135deg,rgba(184,134,11,.07),rgba(253,246,227,.5),rgba(184,134,11,.04));
+  background: var(--bg-alt, rgba(184,134,11,.07));
   border-radius:14px;
-  border:1.5px solid rgba(184,134,11,.18);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+  border:1.5px solid rgba(184,134,11,.25);
 }
 .ann-marquee-wrap::before,.ann-marquee-wrap::after{
   content:''; position:absolute; top:0; bottom:0; width:80px; z-index:2; pointer-events:none;
 }
-.ann-marquee-wrap::before{right:0;background:linear-gradient(to left,#fffdf7,transparent);}
-.ann-marquee-wrap::after {left:0; background:linear-gradient(to right,#fffdf7,transparent);}
+.ann-marquee-wrap::before{right:0;background:linear-gradient(to left,var(--bg, #fffdf7),transparent);}
+.ann-marquee-wrap::after {left:0; background:linear-gradient(to right,var(--bg, #fffdf7),transparent);}
 /* Marquee: starts off-screen right, moves to off-screen left */
 .ann-marquee{
   white-space:nowrap;
@@ -447,9 +456,9 @@ html, body {
   /* Animation applied via JS after content is set */
 }
 .ann-marquee span{
-  font-family:'Amiri',serif; font-size:38px; color:#3a2a08;
+  font-family:'Scheherazade New','Amiri',serif; font-size:48px; font-weight:700;
+  color: var(--txt, #1a0e00);
   padding: 0 60px;
-  text-shadow: 0 1px 0 rgba(255,255,255,.8);
 }
 @keyframes scrollRTL {
   0%   { transform: translateX(-100%); }
@@ -464,24 +473,23 @@ html, body {
 }
 
 .ftr {
-  flex-shrink:0; height:90px;
-  background:linear-gradient(0deg,#fdf6e3 0%,#fff 100%);
+  flex-shrink:0; height:116px;
+  background: var(--bg);
   border-top:1px solid rgba(184,134,11,.12);
   display:flex; align-items:center; justify-content:space-between;
   padding:0 100px;
-  margin-bottom:26px;
 }
-.ftr-dh{font-family:'Amiri',serif;font-size:36px;color:#b8860b;flex:1;text-align:center;}
-.ftr-loc{font-size:24px;color:#7a6035;white-space:nowrap;}
-.ftr-v{font-size:18px;color:rgba(184,134,11,.3);white-space:nowrap;}
+.ftr-dh{font-family:'Scheherazade New','Amiri',serif;font-size:42px;font-weight:800;color:#b8860b;flex:1;text-align:center;}
+.ftr-loc{font-size:28px;color:#7a6035;white-space:nowrap;font-weight:700;}
+.ftr-v{font-size:20px;color:rgba(184,134,11,.3);white-space:nowrap;}
 
 /* ══════════════════════════════
    SCREEN OFF — completely black
 ══════════════════════════════ */
 #soff{
-  position:absolute;inset:0;background:#000;z-index:9999;
-  display:none;align-items:center;justify-content:center;
-  flex-direction:column;gap:30px;cursor:pointer;
+  position:fixed; inset:0; background:#000; z-index:99999;
+  display:none; align-items:center; justify-content:center;
+  flex-direction:column; gap:30px; cursor:pointer;
 }
 #soff.on{display:flex;}
 #so-icon{font-size:100px;color:rgba(255,255,255,.06);animation:sf 5s ease-in-out infinite;}
@@ -513,7 +521,7 @@ html, body {
 
 /* MODAL */
 .mbg{
-  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  position:absolute;inset:0;background:rgba(0,0,0,.55);
   backdrop-filter:blur(6px);z-index:1000;
   display:none;align-items:center;justify-content:center;
 }
@@ -596,9 +604,9 @@ button:focus, select:focus, input:focus {
 /* Remote menu — simple fixed overlay, no rotation */
 #remote-menu {
   display: none;
-  position: fixed;
+  position: absolute;
   top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  width: 100%; height: 100%;
   background: rgba(5,4,1,0.92);
   z-index: 99999;
   align-items: center;
@@ -622,16 +630,11 @@ button:focus, select:focus, input:focus {
   <div class="corner c-bl"><svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg"><path d="M0 0L140 0L140 7Q70 7 7 70L0 70Z" fill="rgba(184,134,11,.14)"/><path d="M0 0L126 0Q63 5 5 126L0 126Z" fill="none" stroke="rgba(184,134,11,.48)" stroke-width="1.8"/><circle cx="11" cy="11" r="6.5" fill="rgba(184,134,11,.55)"/><circle cx="34" cy="11" r="3.5" fill="rgba(184,134,11,.3)"/><circle cx="11" cy="34" r="3.5" fill="rgba(184,134,11,.3)"/><path d="M20 0L20 20L0 20" fill="none" stroke="rgba(184,134,11,.55)" stroke-width="2.5"/></svg></div>
   <div class="corner c-br"><svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg"><path d="M0 0L140 0L140 7Q70 7 7 70L0 70Z" fill="rgba(184,134,11,.14)"/><path d="M0 0L126 0Q63 5 5 126L0 126Z" fill="none" stroke="rgba(184,134,11,.48)" stroke-width="1.8"/><circle cx="11" cy="11" r="6.5" fill="rgba(184,134,11,.55)"/><circle cx="34" cy="11" r="3.5" fill="rgba(184,134,11,.3)"/><circle cx="11" cy="34" r="3.5" fill="rgba(184,134,11,.3)"/><path d="M20 0L20 20L0 20" fill="none" stroke="rgba(184,134,11,.55)" stroke-width="2.5"/></svg></div>
 
-  <!-- Screen Off — completely black -->
-  <div id="soff" onclick="dismissSO()">
-    <div id="so-icon">🕌</div>
-    <div id="so-msg">الصلاة قائمة<br><span style="font-size:.65em">اضغط للعودة</span></div>
-    <div id="so-cd"></div>
-  </div>
+  <!-- Screen Off — moved outside canvas (see below) -->
 
   <!-- IQAMA COUNTDOWN SCREEN — 2 minutes before iqama -->
   <div id="iqama-cd-screen" style="
-    display:none; position:absolute; inset:0; z-index:760;
+    display:none; position:fixed; inset:0; z-index:77777;
     background:linear-gradient(160deg,#0a0e1a 0%,#0f1628 50%,#0a0e1a 100%);
     flex-direction:column; align-items:center; justify-content:center; gap:50px;">
     <div style="font-family:'Amiri',serif;font-size:56px;color:rgba(184,134,11,.6);letter-spacing:4px;">
@@ -659,7 +662,7 @@ button:focus, select:focus, input:focus {
 
   <!-- AQIM ALSALAH SCREEN — shown at iqama time for 1 minute -->
   <div id="aqim-screen" style="
-    display:none; position:absolute; inset:0; z-index:770;
+    display:none; position:fixed; inset:0; z-index:77778;
     background:linear-gradient(160deg,#050810 0%,#0a1020 50%,#050810 100%);
     flex-direction:column; align-items:center; justify-content:center; gap:40px;">
     <div id="aqim-prayer" style="font-family:'Amiri',serif;font-size:100px;color:#e8c050;
@@ -853,17 +856,14 @@ button:focus, select:focus, input:focus {
 
   <!-- COUNTDOWN — dual counters -->
   <div class="cdbar sec">
-    <!-- Prayer name row -->
-    <div class="cd-prayer-row">
-      <span class="cd-current-name" id="cd-cur-name">-</span>
-      <span class="cd-arrow">←</span>
-      <span style="font-size:28px;color:#7a6035;">الصلاة القادمة</span>
-    </div>
-    <!-- Two counters -->
+    <!-- Two counters — full height now, no prayer name row -->
     <div class="cd-counters">
       <!-- Azan counter -->
       <div class="cd-box">
-        <div class="cd-box-lbl cd-azan-lbl">المتبقي للأذان</div>
+        <div class="cd-box-lbl cd-azan-lbl">
+          <span id="cd-cur-name" style="font-weight:900;"></span>
+          &nbsp;—&nbsp; المتبقي للأذان
+        </div>
         <div class="cd-box-time cd-azan-time" id="cd-azan-time">--:--:--</div>
       </div>
       <div class="cd-divider"></div>
@@ -882,7 +882,7 @@ button:focus, select:focus, input:focus {
   <div class="gl"></div>
 
   <!-- AZKAR FULLSCREEN MODE -->
-  <div id="azkar-mode" style="display:none;position:absolute;inset:0;z-index:800;
+  <div id="azkar-mode" style="display:none;position:fixed;inset:0;z-index:88888;
     background:linear-gradient(180deg,#fffdf7 0%,#fdf6e3 50%,#fffdf7 100%);
     flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:50px 60px;">
 
@@ -964,13 +964,9 @@ button:focus, select:focus, input:focus {
 
   <!-- ANNOUNCEMENTS — full width -->
   <div class="bot sec">
-    <div class="ann-panel">
-      <div class="ann-hdr">
-        <span class="ann-ttl">إعلانات المسجد</span>
-        <button class="ann-ebtn" onclick="toggleAnn()">تعديل</button>
-      </div>
-      <!-- Marquee display -->
-      <div class="ann-marquee-wrap" id="ann-marquee-wrap">
+    <div class="ann-panel" style="padding:10px 100px;">
+      <!-- Marquee display — full height now -->
+      <div class="ann-marquee-wrap" id="ann-marquee-wrap" style="height:110px;">
         <div class="ann-marquee" id="ann-marquee">
           <span id="ann-marquee-txt">لا يوجد إعلانات حالياً</span>
         </div>
@@ -998,7 +994,6 @@ button:focus, select:focus, input:focus {
   </div>
   <div class="gl"></div>
 
-</div><!-- /canvas -->
 
 <!-- HIJRI DATE EDIT MODAL -->
 <div class="mbg" id="modal-hijri">
@@ -1326,6 +1321,17 @@ button:focus, select:focus, input:focus {
   </div>
 </div>
 
+
+</div><!-- /canvas -->
+
+<!-- Screen Off — OUTSIDE canvas so position:fixed works despite canvas transform -->
+<div id="soff" onclick="dismissSO()">
+  <div id="so-icon">🕌</div>
+  <div id="so-msg">الصلاة قائمة<br><span style="font-size:.65em">اضغط للعودة</span></div>
+  <div id="so-cd"></div>
+</div>
+
+
 <script>
 // ── CANVAS ROTATION ──
 let _canvasRotation = 0;
@@ -1410,42 +1416,20 @@ function rotateCanvas(){
 
 // Counter-rotate overlays (remote menu + modals + screen-off) to always be upright
 function applyMenuRotation(){
-  // Remote menu stays fixed to viewport — no rotation needed
-  // Only rotate modals and screen-off overlay to match canvas rotation
-  const rot = _canvasRotation;
-  const sw = window.innerWidth, sh = window.innerHeight;
-  const configs = [
-    { angle:   0, w: sw, h: sh, tx: 0,  ty: 0  },
-    { angle: -90, w: sh, h: sw, tx: 0,  ty: sw },
-    { angle: 180, w: sw, h: sh, tx: sw, ty: sh },
-    { angle:  90, w: sh, h: sw, tx: sh, ty: 0  },
-  ];
-  const cfg = configs[rot];
-
-  // Apply to modals and screen-off only
-  [
-    document.getElementById('soff'),
-    ...Array.from(document.querySelectorAll('.mbg'))
-  ].filter(Boolean).forEach(el => {
-    el.style.transformOrigin = 'top left';
-    el.style.position  = 'fixed';
-    el.style.width     = cfg.w + 'px';
-    el.style.height    = cfg.h + 'px';
-    el.style.top = '0px';
-    el.style.left= '0px';
-    el.style.transform = cfg.angle === 0 ? 'none'
-      : `translate(${cfg.tx}px,${cfg.ty}px) rotate(${cfg.angle}deg)`;
-    el.style.alignItems     = 'center';
-    el.style.justifyContent = 'center';
-    el.style.flexDirection  = 'column';
-  });
-
-  // Scale modal content
-  const shortSide = Math.min(sw, sh);
+  // Modals are now INSIDE #canvas so they auto-rotate with it
+  // Just scale the modal box to fit the canvas dimensions (1080x1920)
   document.querySelectorAll('.modal').forEach(m => {
-    m.style.maxWidth  = (shortSide * 0.90) + 'px';
-    m.style.maxHeight = (Math.max(sw, sh) * 0.85) + 'px';
+    m.style.maxWidth  = '920px';
+    m.style.maxHeight = '1700px';
     m.style.overflowY = 'auto';
+  });
+  // Reset any old inline transforms on mbg
+  document.querySelectorAll('.mbg').forEach(el => {
+    el.style.transform = '';
+    el.style.width = '';
+    el.style.height = '';
+    el.style.position = 'absolute';
+    el.style.inset = '0';
   });
 }
 
@@ -1645,59 +1629,112 @@ const BG_THEMES = [
 let _currentBg = 'default';
 
 function initBgThemes(){
-  try{ const s=localStorage.getItem('bgTheme'); if(s) applyBgTheme(s,false); } catch(e){}
+  try{
+    const s=localStorage.getItem('bgTheme');
+    if(s) applyBgTheme(s,false);
+  } catch(e){}
+
+  // Auto-reapply theme when DOM changes (e.g. buildGrid creates new prows)
+  const observer = new MutationObserver(() => {
+    if(_currentBg && _currentBg !== 'default'){
+      // Only reapply to new .prow elements - lightweight
+      const isDark = ['dark','green','navy','brown','teal','purple'].includes(_currentBg);
+      const t = BG_THEMES.find(b=>b.id===_currentBg) || BG_THEMES[0];
+      const goldCol = isDark ? '#e8c050' : '#b8860b';
+      document.querySelectorAll('.prow:not([data-themed])').forEach(el=>{
+        el.style.setProperty('background', t.row, 'important');
+        el.style.setProperty('border-color', isDark ? 'rgba(232,192,80,0.15)' : 'rgba(184,134,11,0.15)', 'important');
+        el.dataset.themed = '1';
+        // Also fix text inside
+        el.querySelectorAll('.pname,.ptval,.piqval').forEach(c=>{
+          c.style.setProperty('color', t.text, 'important');
+        });
+      });
+    }
+  });
+  const pgrid = document.getElementById('pgrid');
+  if(pgrid) observer.observe(pgrid, {childList:true, subtree:true});
 }
 
 function applyBgTheme(id, save=true){
   const t = BG_THEMES.find(b=>b.id===id) || BG_THEMES[0];
   _currentBg = id;
-  document.body.style.background = t.bg;
-  const canvas = document.getElementById('canvas');
-  if(canvas) canvas.style.background = t.canvas;
-  // Update prow background
-  const style = document.getElementById('dynamic-theme-style') || (() => {
+  const isDark = ['dark','green','navy','brown','teal','purple'].includes(id);
+  const txtCol  = t.text;
+  const goldCol = isDark ? '#e8c050' : '#b8860b';
+  const rowBg   = t.row;
+
+  // ── Set CSS variables on #canvas — propagates to ALL child elements ──
+  const cvs = document.getElementById('canvas');
+  if(cvs){
+    const s = cvs.style;
+    s.setProperty('--bg',      t.canvas);
+    s.setProperty('--bg-alt',  rowBg);
+    s.setProperty('--bg-sec',  isDark ? 'rgba(232,192,80,0.05)' : '#fffdf7');
+    s.setProperty('--bg-cd',   isDark ? 'rgba(232,192,80,0.06)' : '#faf4e6');
+    s.setProperty('--bg-ftr',  isDark ? 'rgba(232,192,80,0.05)' : '#fdf6e3');
+    s.setProperty('--txt',     txtCol);
+    s.setProperty('--gold',    goldCol);
+    s.setProperty('--gold-dim', isDark ? 'rgba(232,192,80,0.4)' : 'rgba(184,134,11,0.5)');
+    s.setProperty('background', t.canvas, 'important');
+  }
+  document.body.style.setProperty('background', t.bg, 'important');
+
+  // ── Dynamic CSS for elements that can't use var() easily ──
+  const dyn = document.getElementById('dynamic-theme-style') || (() => {
     const s=document.createElement('style'); s.id='dynamic-theme-style';
     document.head.appendChild(s); return s;
   })();
-  const isDark = ['dark','green','navy','brown','teal','purple'].includes(id);
-  const rowBg  = t.row;
-  const txtCol = t.text;
-  const glColor = isDark ? 'rgba(232,192,80,0.4)' : 'rgba(184,134,11,0.5)';
-  style.textContent = `
-    #canvas { background: ${t.canvas} !important; }
-    .prow { background: ${rowBg} !important; border-color: rgba(184,134,11,0.2) !important; }
-    .prow.active { background: ${isDark ? 'rgba(184,134,11,0.25)' : 'linear-gradient(135deg,#fffbef,#fdf5d8)'} !important; border-color: #d4a017 !important; }
-    .prow.passed { background: ${rowBg} !important; border-color: rgba(184,134,11,0.15) !important; }
-    .pname { color: ${txtCol} !important; }
-    .ptval { color: ${txtCol} !important; }
-    .piqval { color: ${txtCol} !important; }
-    .prow.passed .pname { color: ${txtCol} !important; opacity: 0.85; }
-    .prow.passed .ptval { color: ${txtCol} !important; opacity: 0.85; }
-    .prow.passed .piqval { color: ${txtCol} !important; opacity: 0.85; }
-    .prow.passed .picon { opacity: 0.6; }
-    .prow.active .pname { color: #e8c050 !important; opacity: 1; }
-    .hdr { background: ${isDark ? 'linear-gradient(180deg,rgba(184,134,11,0.15),transparent)' : 'linear-gradient(180deg,#fdf6e3,transparent)'} !important; }
+  dyn.textContent = `
     .clk-disp { color: ${txtCol} !important; }
-    .clk-sec { background: ${t.canvas} !important; }
-    .mname { color: ${isDark ? '#e8c050' : '#b8860b'} !important; }
+    #clk-period { color: ${goldCol} !important; }
+    .mname { color: ${goldCol} !important; }
+    .hsub { color: ${isDark ? 'rgba(232,192,80,0.85)' : '#3a2a08'} !important; }
+    .th { color: ${goldCol} !important; }
+    .tbl-hdr { background: ${isDark ? 'rgba(232,192,80,0.08)' : 'rgba(184,134,11,0.06)'} !important; }
+    .prow { background: ${rowBg} !important; border-color: ${isDark ? 'rgba(232,192,80,0.15)' : 'rgba(184,134,11,0.15)'} !important; }
+    .prow.active { background: ${isDark ? 'rgba(232,192,80,0.2)' : '#fffbef'} !important; border-color: ${goldCol} !important; }
+    .pname, .ptval, .piqval { color: ${txtCol} !important; }
+    .prow.active .pname { color: ${goldCol} !important; }
+    .prow.passed .pname, .prow.passed .ptval, .prow.passed .piqval { color: ${txtCol} !important; }
     .gl { background: linear-gradient(90deg,transparent,${isDark ? 'rgba(232,192,80,0.5)' : '#b8860b'},transparent) !important; }
-    .ftr { background: ${isDark ? 'rgba(184,134,11,0.08)' : 'linear-gradient(0deg,#fdf6e3,#fff)'} !important; }
-    .ftr-dh { color: ${isDark ? '#e8c050' : '#b8860b'} !important; }
-    .ftr-loc, .ftr-v { color: ${isDark ? 'rgba(232,192,80,0.6)' : '#7a6035'} !important; }
-    .bot { background: ${isDark ? 'rgba(255,255,255,0.03)' : '#fffdf7'} !important; }
-    .cdbar { background: ${isDark ? 'rgba(184,134,11,0.1)' : 'linear-gradient(135deg,#fdf6e3,#faf4e6)'} !important; }
-    .pgrid-hdr span { color: ${isDark ? 'rgba(232,192,80,0.7)' : '#7a6035'} !important; }
-    .date-pill { background: ${isDark ? 'rgba(232,192,80,0.1)' : '#fdf6e3'} !important; }
+    .date-pill { background: ${isDark ? 'rgba(232,192,80,0.1)' : 'rgba(184,134,11,0.08)'} !important; }
     .date-pill-val { color: ${isDark ? '#e8c050' : '#7a4000'} !important; }
-    .ann-panel, .ann-label, .bot { color: ${txtCol} !important; }
+    .ftr-dh { color: ${goldCol} !important; }
+    .ftr-loc, .ftr-v { color: ${isDark ? 'rgba(232,192,80,0.55)' : '#7a6035'} !important; }
+    .cd-current-name { color: ${goldCol} !important; }
+    .cd-box-lbl { color: ${isDark ? 'rgba(232,192,80,0.65)' : '#7a6035'} !important; }
+    .cd-azan-time { color: ${isDark ? '#5dcc8a' : '#166630'} !important; }
+    .cd-iqama-time { color: ${isDark ? '#7ab0e8' : '#0f3d7a'} !important; }
+    .ann-label { color: ${goldCol} !important; }
+    .ann-marquee span { color: ${txtCol} !important; }
+    .ann-marquee-wrap { background: ${rowBg} !important; border-color: ${isDark ? 'rgba(232,192,80,0.3)' : 'rgba(184,134,11,0.25)'} !important; }
+    .ann-marquee-wrap::before { background: linear-gradient(to left, ${t.canvas}, transparent) !important; }
+    .ann-marquee-wrap::after  { background: linear-gradient(to right, ${t.canvas}, transparent) !important; }
+    #api-indicator { color: ${isDark ? 'rgba(232,192,80,0.6)' : '#7a6035'} !important; }
+    #azkar-mode { background: ${isDark ? t.canvas : '#fffdf7'} !important; }
+    .bot { background: ${isDark ? 'rgba(232,192,80,0.05)' : '#fffdf7'} !important; }
+    .cdbar { background: ${isDark ? 'rgba(232,192,80,0.06)' : '#faf4e6'} !important; }
+    .ftr { background: ${isDark ? 'rgba(232,192,80,0.05)' : '#fdf6e3'} !important; }
+    .hdr { background: linear-gradient(180deg,${isDark ? 'rgba(232,192,80,0.06)' : '#fdf6e3'} 0%,transparent 100%) !important; }
+    .clk-sec { background: ${t.canvas} !important; }
     .rows-wrap { background: ${t.canvas} !important; }
+    .cdbar { background: ${isDark ? 'rgba(232,192,80,0.06)' : '#faf4e6'} !important; }
+    .bot   { background: ${isDark ? 'rgba(232,192,80,0.06)' : '#fffdf7'} !important; }
+    .ftr   { background: ${isDark ? 'rgba(232,192,80,0.06)' : '#fdf6e3'} !important; }
+    .hdr   { background: ${t.canvas} !important; }
+    .ptbl  { background: ${t.canvas} !important; }
+    .sec   { background: ${t.canvas} !important; }
+    html, body { background: ${t.bg} !important; }
+    #canvas { background: ${t.canvas} !important; }
   `;
+
   if(save) try{ localStorage.setItem('bgTheme', id); } catch(e){}
-  // Update theme grid selection
   document.querySelectorAll('.bg-card').forEach(c=>{
     c.style.outline = c.dataset.id===id ? '3px solid #e8c050' : '2px solid transparent';
   });
 }
+
 
 function buildBgGrid(){
   const grid = document.getElementById('bg-themes');
@@ -1945,14 +1982,16 @@ let _previewOrigScrMin = null;
 let _previewOrigAzkarDur = null;
 
 function openPreviewModal(){
-  // Set defaults: 2 minutes from now for azan, 4 minutes for iqama
   const now = new Date();
-  const azanTime = new Date(now.getTime() + 2*60000);
-  const iqaTime  = new Date(now.getTime() + 4*60000);
+  // Default: azan 3 minutes from now, iqama 5 minutes from now
+  const azanTime = new Date(now.getTime() + 3*60000);
+  const iqaTime  = new Date(now.getTime() + 5*60000);
   document.getElementById('prev-azan-h').value = azanTime.getHours();
   document.getElementById('prev-azan-m').value = azanTime.getMinutes();
   document.getElementById('prev-iq-h').value   = iqaTime.getHours();
   document.getElementById('prev-iq-m').value   = iqaTime.getMinutes();
+  document.getElementById('prev-so-sec').value  = 10;
+  document.getElementById('prev-azkar-sec').value = 20;
   const st = document.getElementById('prev-status');
   if(st) st.style.display = 'none';
   openModal('preview');
@@ -1966,12 +2005,10 @@ function startPreview(){
   const soSec  = parseInt(document.getElementById('prev-so-sec').value)  || 15;
   const azSec  = parseInt(document.getElementById('prev-azkar-sec').value) || 20;
 
-  const azanH  = azH + azM/60;   // decimal hours
+  const azanH  = azH + azM/60;
   const iqamaH = iqH + iqM2/60;
 
-  if(iqamaH <= azanH){
-    alert('وقت الإقامة يجب أن يكون بعد وقت الأذان!'); return;
-  }
+  if(iqamaH <= azanH){ alert('وقت الإقامة يجب أن يكون بعد وقت الأذان!'); return; }
 
   // Save originals
   _previewOrigTimes    = [...S.pTimes];
@@ -1979,19 +2016,22 @@ function startPreview(){
   _previewOrigScrMin   = [...S.scrMin];
   _previewOrigAzkarDur = S.azkarDur;
 
-  // ── حقن الصلاة الوهمية في slot 0 (الفجر مؤقتاً) ──
-  S.pTimes  = [azanH,  ...S.pTimes.slice(1)];
-  S.iqTimes = [iqamaH, ...S.iqTimes.slice(1)];  // decimal hours directly
-
-  // Override durations with seconds-based values for quick preview
-  S.scrMin   = [soSec/60, ...S.scrMin.slice(1)];   // only slot 0
-  S.azkarDur = azSec/60;
-  S.soFired  = {}; // reset so screen-off fires again
-
+  // Override durations — soSec is in SECONDS, scrMin expects MINUTES
+  S.scrMin   = [soSec/60, ...S.scrMin.slice(1)];  // soSec seconds → minutes
+  S.azkarDur = azSec/60;                            // azSec seconds → minutes
+  S.soFired  = {};
   _previewActive = true;
 
-  // Update UI immediately
+  // Inject fake prayer AFTER buildGrid (buildGrid calls refreshTimes which would overwrite)
   buildGrid();
+  // Now inject — after refreshTimes has run
+  S.pTimes[0]  = azanH;
+  S.iqTimes[0] = iqamaH;
+  // Update display immediately
+  const tv = document.getElementById('tv-0');
+  const iqv = document.getElementById('iqv-0');
+  if(tv)  tv.textContent  = f2hm(azanH);
+  if(iqv) iqv.textContent = f2hm(iqamaH);
 
   // Show status
   const st = document.getElementById('prev-status');
@@ -2000,12 +2040,12 @@ function startPreview(){
     const azStr = `${fmt2(azH)}:${fmt2(azM)}`;
     const iqStr = `${fmt2(iqH)}:${fmt2(iqM2)}`;
     st.innerHTML = `✅ المعاينة تعمل — أذان: <b>${azStr}</b> — إقامة: <b>${iqStr}</b><br>
-      <span style="font-size:12px;color:#555;">الأحداث ستظهر تلقائياً عند حلول الوقت</span>`;
+      <span style="font-size:12px;color:#777;">الأحداث ستظهر تلقائياً عند حلول الوقت</span>`;
   }
 
-  // Auto-stop: after iqama + so + azkar + 60s buffer
+  // Auto-stop
   const nowMin = new Date().getHours()*60 + new Date().getMinutes() + new Date().getSeconds()/60;
-  const iqaMin  = iqH*60 + iqM2;
+  const iqaMin = iqH*60 + iqM2;
   const remaining = Math.max(5000, (iqaMin - nowMin)*60*1000 + (soSec + azSec + 60)*1000);
   _previewInterval = setTimeout(stopPreview, remaining);
 
@@ -2231,6 +2271,60 @@ function tick(){
   const progIq   = document.getElementById('prog-iqama');
   const fmtSec = s => { const hh=Math.floor(s/3600),mm=Math.floor((s%3600)/60),ss=Math.floor(s%60); return `${fmt2(hh)}:${fmt2(mm)}:${fmt2(ss)}`; };
 
+  // ── In preview mode, force slot 0 as the active countdown ──
+  if(_previewActive){
+    const azMinRaw = f2min(S.pTimes[0]);
+    const iqMinRaw = f2min(S.iqTimes[0]);
+    const secToAz = (azMinRaw - nowMin) * 60;
+    const secToIq = (iqMinRaw - nowMin) * 60;
+
+    cdLabel1.textContent = '🔵 ' + PRAYERS[0];
+
+    if(secToAz > 0){
+      azanEl.textContent = fmtSec(secToAz);
+      azanEl.className = 'cd-box-time cd-azan-time';
+      iqamaEl.textContent = fmtSec(secToIq);
+      iqamaEl.className = 'cd-box-time cd-iqama-time';
+      if(progAzan) progAzan.style.width = '0%';
+      if(progIq)   progIq.style.width   = '0%';
+      hideIqamaCdScreen();
+    } else if(secToIq > 120){
+      // Between azan and iqama — more than 2 min left
+      azanEl.textContent = 'أُذِّن ✓';
+      azanEl.className = 'cd-box-time inactive';
+      iqamaEl.textContent = fmtSec(secToIq);
+      iqamaEl.className = 'cd-box-time cd-iqama-time';
+      if(progAzan) progAzan.style.width = '100%';
+      hideIqamaCdScreen();
+    } else if(secToIq > 5){
+      // Less than 2 min to iqama — show fullscreen countdown
+      azanEl.textContent = 'أُذِّن ✓';
+      azanEl.className = 'cd-box-time inactive';
+      iqamaEl.textContent = fmtSec(secToIq);
+      iqamaEl.className = 'cd-box-time cd-iqama-time';
+      if(progAzan) progAzan.style.width = '100%';
+      showIqamaCdScreen(0, secToIq);
+    } else if(secToIq > -3){
+      // Iqama moment
+      const pk = 'prev_iq_' + Math.floor(iqMinRaw);
+      if(!S.soFired[pk]){
+        S.soFired[pk] = true;
+        hideIqamaCdScreen();
+        showAqimScreen(0);
+        setTimeout(()=>{
+          hideAqimScreen();
+          setTimeout(()=>triggerSO(0), 3000); // 3s for preview (not 30s)
+        }, 5000); // 5s aqim screen for preview
+      }
+    } else {
+      azanEl.textContent = 'أُذِّن ✓';
+      azanEl.className = 'cd-box-time inactive';
+      iqamaEl.textContent = 'أُقيمت ✓';
+      iqamaEl.className = 'cd-box-time inactive';
+    }
+    return;
+  }
+
   if(active !== -1 && active !== 1 && phase === 'before'){
     // ── CASE 1: Between azan and iqama — show current prayer ──
     const diffSec2 = Math.max(0,(iqM[active]-nowMin)*60);
@@ -2417,69 +2511,78 @@ function triggerAzkarMode(){
     const container=document.getElementById('azkar-single-list');
     container.innerHTML='';
 
+    // Get current theme colors
+    const t = BG_THEMES.find(b=>b.id===_currentBg) || BG_THEMES[0];
+    const isDark = ['dark','green','navy','brown','teal','purple'].includes(_currentBg);
+    const textCol = isDark ? '#f5ead0' : '#0a0a0a';
+    const goldCol  = isDark ? '#e8c050' : '#b8860b';
+    const rowEven  = isDark ? 'rgba(232,192,80,0.1)' : 'rgba(184,134,11,0.08)';
+    const rowOdd   = isDark ? 'rgba(232,192,80,0.04)' : 'rgba(184,134,11,0.03)';
+    const borderE  = isDark ? 'rgba(232,192,80,0.3)' : 'rgba(184,134,11,0.28)';
+    const borderO  = isDark ? 'rgba(232,192,80,0.12)' : 'rgba(184,134,11,0.12)';
+
     const count=list.length;
-    const availH=1480;
-    const itemH=availH/(count+2); // +2 for title and footer note
-    const fontSize=Math.max(20, Math.min(40, Math.floor(itemH*0.34)));
-    const padV=Math.max(4, Math.floor(itemH*0.06));
-    const gap=Math.max(3, Math.floor(itemH*0.04));
+    const availH=1260; // conservative to guarantee all fit
+    const itemH=availH/(count+2.5);
+    const fontSize=Math.max(20, Math.min(38, Math.floor(itemH*0.38)));
+    const padV=Math.max(3, Math.floor(itemH*0.05));
+    const gap=Math.max(3, Math.floor(itemH*0.03));
 
     container.style.gap=gap+'px';
     container.style.justifyContent='center';
-    container.style.padding='0 20px';
+    container.style.padding='0 24px';
 
-    // Title row
+    // Title
     const title=document.createElement('div');
     title.style.cssText=`
-      text-align:center; font-family:'Amiri',serif;
-      font-size:${Math.min(64,Math.floor(fontSize*1.3))}px;
-      color:#b8860b; font-weight:bold;
-      letter-spacing:4px; flex-shrink:0;
+      text-align:center; font-family:'Scheherazade New','Amiri',serif;
+      font-size:${Math.min(72,Math.floor(fontSize*1.5))}px;
+      color:${goldCol}; font-weight:900;
+      letter-spacing:3px; flex-shrink:0;
       animation:azkarPop .6s ease-out both;
       padding-bottom:${padV}px;
     `;
-    title.innerHTML=`
-      <span style="color:#5a3e8a;font-size:${Math.min(52,Math.floor(fontSize*1.0))}px;">أَذْكَارُ مَا بَعْدَ الصَّلَاةِ</span>
-    `;
+    title.textContent = 'أَذْكَارُ مَا بَعْدَ الصَّلَاةِ';
     container.appendChild(title);
 
     list.forEach((z,i)=>{
+      const even = i%2===0;
       const item=document.createElement('div');
       item.style.cssText=`
-        background:${i%2===0 ? 'rgba(184,134,11,.07)' : 'rgba(184,134,11,.03)'};
-        border:1.5px solid rgba(184,134,11,${i%2===0 ? '.28' : '.14'});
-        border-radius:12px;
-        padding:${padV}px 28px;
-        display:flex; align-items:center; gap:16px;
+        background:${even ? rowEven : rowOdd};
+        border:1.5px solid ${even ? borderE : borderO};
+        border-radius:14px;
+        padding:${padV}px 24px;
+        display:flex; align-items:center; gap:14px;
         flex-shrink:0;
         animation:azkarPop .5s ease-out both;
         animation-delay:${i*0.06}s;
       `;
-      const numSize = Math.max(14, Math.floor(fontSize*0.46));
       item.innerHTML=`
+        <div style="font-size:${fontSize*0.55}px;color:${goldCol};flex-shrink:0;font-weight:900;line-height:1;">✦</div>
         <div style="
-          font-size:${numSize+4}px; color:#b8860b; font-family:'Amiri',serif;
-          flex-shrink:0; line-height:1;">✦</div>
-        <div style="
-          font-family:'Amiri Quran','Amiri',serif;
-          font-size:${fontSize}px; color:#2a1a04;
-          line-height:1.5; flex:1; text-align:right;">
+          font-family:'Noto Naskh Arabic','Scheherazade New','Amiri',serif;
+          font-size:${fontSize}px; color:${isDark ? '#ffffff' : '#000000'};
+          line-height:1.7; flex:1; text-align:right;
+          font-weight:900;
+          -webkit-text-stroke: ${isDark ? '0' : '0.3px #000'};
+        ">
           ${z}
         </div>
       `;
       container.appendChild(item);
     });
 
-    // Footer note
+    // Footer
     const note=document.createElement('div');
     note.style.cssText=`
       text-align:center; font-family:'Amiri',serif;
-      font-size:${Math.min(30,Math.floor(fontSize*0.62))}px;
-      color:#7a5e00; flex-shrink:0;
+      font-size:${Math.min(32,Math.floor(fontSize*0.65))}px;
+      color:${isDark ? 'rgba(232,192,80,0.6)' : '#7a5e00'}; flex-shrink:0;
       animation:azkarPop .5s ease-out both;
       animation-delay:${count*0.07+0.1}s;
       padding-top:${padV}px;
-      border-top: 1px solid rgba(184,134,11,.2);
+      border-top: 1px solid ${isDark ? 'rgba(232,192,80,0.2)' : 'rgba(184,134,11,.2)'};
     `;
     note.textContent='تُقرأ مرة واحدة بعد كل صلاة — إلا ما ذُكر فيه عدد مخصوص';
     container.appendChild(note);
@@ -2489,6 +2592,10 @@ function triggerAzkarMode(){
     // Rotate mode
     document.getElementById('azkar-rotate-view').style.display='flex';
     document.getElementById('azkar-single-view').style.display='none';
+    // Apply theme colors to rotate mode text
+    const isDark = ['dark','green','navy','brown','teal','purple'].includes(_currentBg);
+    const txtEl = document.getElementById('azkar-mode-txt');
+    if(txtEl) txtEl.style.color = isDark ? '#f5ead0' : '#2a1a04';
     showAzkarModeItem();
     const secInterval=(S.azkarInterval||8)*1000;
     if(S.azkarModeInterval)clearInterval(S.azkarModeInterval);
