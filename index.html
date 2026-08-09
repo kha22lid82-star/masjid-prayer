@@ -236,15 +236,22 @@ html, body {
   padding: 14px 44px 10px;
 }
 .tbl-hdr {
-  display:grid; grid-template-columns:1.5fr 1fr 1fr;
-  padding: 0 20px 8px;
+  display:grid; grid-template-columns:1.6fr 1.2fr 1.2fr;
+  padding: 16px 24px 14px;
   flex-shrink:0;
+  align-items:start;
 }
 .th {
-  text-align:center; font-family:'Scheherazade New','Amiri',serif;
-  font-size:50px; color:#b8860b; letter-spacing:2px; font-weight:800;
+  font-family:'Noto Naskh Arabic','Amiri',serif;
+  font-size:80px; color:#b8860b; letter-spacing:2px; font-weight:700;
+  line-height:0.85; padding-top:4px;
+  text-align:center;
 }
-.th:first-child { text-align:right; }
+.th:first-child { text-align:right; border-left:none; }
+.th:nth-child(2) {
+  text-align:center;
+  padding-left:40px;
+}
 
 /* 6 prayer rows fill the remaining height equally */
 .rows-wrap {
@@ -252,12 +259,21 @@ html, body {
   display:flex; flex-direction:column;
   gap: 8px;
 }
+/* Consistent column dividers aligned across header and rows */
+.tbl-hdr,
+.prow { position:relative; }
+.th:nth-child(2),
+.ptcell-inner {
+  border-right:3px solid rgba(184,134,11,0.4);
+  border-left:3px solid rgba(184,134,11,0.4);
+}
 
 .prow {
   flex:1; min-height:0;
-  display:grid; grid-template-columns:1.5fr 1fr 1fr;
-  align-items:center;
-  padding: 0 12px;
+  display:grid; grid-template-columns:1.6fr 1.2fr 1.2fr;
+  align-items:start;
+  padding: 10px 24px 0;
+  grid-auto-rows:min-content;
   border-radius:18px;
   border:1.5px solid rgba(184,134,11,.16);
   background: var(--bg);
@@ -289,7 +305,7 @@ html, body {
 .prow.passed .piqval { color: #0a0a0a; }
 .prow.passed .picon { opacity: .55; }
 
-.pname-cell { display:flex; align-items:center; gap:10px; }
+.pname-cell { display:flex; align-items:flex-start; gap:8px; overflow:hidden; }
 .picon {
   width:52px; height:52px; border-radius:50%;
   background:rgba(184,134,11,.08); border:1.5px solid rgba(184,134,11,.2);
@@ -303,24 +319,26 @@ html, body {
 .pname {
   font-family:'Scheherazade New','Amiri',serif;
   font-size:72px; color:#0a0a0a; line-height:1; font-weight:900;
-  letter-spacing:1px;
+  letter-spacing:1px; white-space:nowrap;
 }
 .prow.active .pname { color:#b8860b; }
 .prow.passed .pname { color:#0a0a0a; }
 
 .ptcell,.piqcell { text-align:center; }
 .ptval {
-  font-family:'Scheherazade New','Amiri',serif; font-size:78px;
+  font-family:'Scheherazade New','Amiri',serif; font-size:100px;
   color:#0a0a0a; direction:ltr; letter-spacing:2px; font-weight:900;
+  line-height:0.85; display:block; padding-top:10px;
 }
 .prow.active .ptval { color:#0a0a0a; }
 .prow.passed .ptval { color:#0a0a0a; }
 .piqval {
-  font-family:'Scheherazade New','Amiri',serif; font-size:78px;
-  color:#0a0a0a; direction:ltr; letter-spacing:2px; font-weight:900;
+  font-family:'Scheherazade New','Amiri',serif; font-size:100px;
+  color:#0a3d7a; direction:ltr; letter-spacing:2px; font-weight:900;
+  line-height:0.85; display:block; padding-top:10px;
 }
-.prow.active .piqval { color:#0a0a0a; }
-.prow.passed .piqval { color:#0a0a0a; }
+.prow.active .piqval { color:#0a3d7a; }
+.prow.passed .piqval { color:#0a3d7a; }
 .iqedit {
   display:flex; align-items:center; justify-content:center; gap:5px; margin-top:2px;
   display: none; /* hidden by default */
@@ -847,8 +865,8 @@ button:focus, select:focus, input:focus {
   <div class="ptbl sec">
     <div class="tbl-hdr">
       <div class="th" style="text-align:right">الصلاة</div>
-      <div class="th">الأذان</div>
-      <div class="th">الإقامة</div>
+      <div class="th">الآذان</div>
+      <div class="th" style="color:#0a3d7a;">الإقامة</div>
     </div>
     <div class="rows-wrap" id="pgrid"></div>
   </div>
@@ -1120,6 +1138,15 @@ button:focus, select:focus, input:focus {
         <button onclick="adjVal('m-azkar-dur',1)" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(184,134,11,.4);background:rgba(184,134,11,.1);font-size:20px;cursor:pointer;color:#7a6035;">+</button>
         <button class="mbp" style="background:linear-gradient(135deg,#166630,#1a7a3c)" onclick="previewAzkar()">▶ معاينة</button>
         <button class="mbp" style="background:linear-gradient(135deg,#0f3d7a,#1a4a8a)" onclick="openModal('azkar')">✎ تعديل الأذكار</button>
+      </div>
+    </div>
+    <div class="mf" style="margin-top:12px">
+      <label>⏱ شاشة العد التنازلي — تظهر قبل الإقامة بـ (دقيقة)</label>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+        <button onclick="adjVal('m-iq-cd-min',-1)" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(184,134,11,.4);background:rgba(184,134,11,.1);font-size:20px;cursor:pointer;color:#7a6035;">−</button>
+        <input class="minput" id="m-iq-cd-min" type="number" min="1" max="10" style="width:70px;text-align:center;" value="2">
+        <button onclick="adjVal('m-iq-cd-min',1)" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(184,134,11,.4);background:rgba(184,134,11,.1);font-size:20px;cursor:pointer;color:#7a6035;">+</button>
+        <span style="font-size:14px;color:#7a6035;">دقائق قبل الإقامة</span>
       </div>
     </div>
     <!-- BACKGROUND THEMES -->
@@ -1587,9 +1614,9 @@ function startVerseRotation(){
 }
 
 // ── STATE ──
-let S={mosqueName:'مسجد الحمد بولاية العامرات',city:'amarat',lat:23.600,lng:58.400,cityName:'العامرات',method:5,iqMin:[15,15,10,10,5,10],scrMin:[10,10,10,10,10,10],azkarDur:10,azkarDisplayMode:'single',azkarInterval:8,azkarSrc:'default',customAzkar:[],ann:'للاستفسار والملاحظات التواصل مع وكلاء المسجد على الأرقام: 95958817 — 99282919',annList:[],pTimes:[],iqTimes:[],apiTimes:null,lastApiDate:'',azkarIdx:0,footerIdx:0,soTimer:null,soUntil:null,soFired:{},azkarModeTimer:null,azkarModeUntil:null,azkarModeIdx:0,azkarModeInterval:null,annMarqueeIdx:0};
+let S={mosqueName:'مسجد الحمد بولاية العامرات',city:'amarat',lat:23.600,lng:58.400,cityName:'العامرات',method:5,iqMin:[15,15,10,10,5,10],scrMin:[10,10,10,10,10,10],azkarDur:10,iqCdMin:2,azkarDisplayMode:'single',azkarInterval:8,azkarSrc:'default',customAzkar:[],ann:'للاستفسار والملاحظات التواصل مع وكلاء المسجد على الأرقام: 95958817 — 99282919',annList:[],pTimes:[],iqTimes:[],apiTimes:null,lastApiDate:'',azkarIdx:0,footerIdx:0,soTimer:null,soUntil:null,soFired:{},azkarModeTimer:null,azkarModeUntil:null,azkarModeIdx:0,azkarModeInterval:null,annMarqueeIdx:0};
 function loadS(){try{const d=localStorage.getItem('masjidApp9');if(d)Object.assign(S,JSON.parse(d));}catch(e){}}
-function saveS(){try{localStorage.setItem('masjidApp9',JSON.stringify({mosqueName:S.mosqueName,city:S.city,lat:S.lat,lng:S.lng,cityName:S.cityName,method:S.method,iqMin:S.iqMin,scrMin:S.scrMin,azkarDur:S.azkarDur,azkarDisplayMode:S.azkarDisplayMode,azkarInterval:S.azkarInterval,azkarSrc:S.azkarSrc,customAzkar:S.customAzkar,ann:S.ann}));}catch(e){}}
+function saveS(){try{localStorage.setItem('masjidApp9',JSON.stringify({mosqueName:S.mosqueName,city:S.city,lat:S.lat,lng:S.lng,cityName:S.cityName,method:S.method,iqMin:S.iqMin,scrMin:S.scrMin,azkarDur:S.azkarDur,iqCdMin:S.iqCdMin,azkarDisplayMode:S.azkarDisplayMode,azkarInterval:S.azkarInterval,azkarSrc:S.azkarSrc,customAzkar:S.customAzkar,ann:S.ann}));}catch(e){}}
 
 // ── PRAYER CALC ──
 const toR=d=>d*Math.PI/180,toD=r=>r*180/Math.PI;
@@ -1646,8 +1673,12 @@ function initBgThemes(){
         el.style.setProperty('border-color', isDark ? 'rgba(232,192,80,0.15)' : 'rgba(184,134,11,0.15)', 'important');
         el.dataset.themed = '1';
         // Also fix text inside
-        el.querySelectorAll('.pname,.ptval,.piqval').forEach(c=>{
+        el.querySelectorAll('.pname,.ptval').forEach(c=>{
           c.style.setProperty('color', t.text, 'important');
+        });
+        el.querySelectorAll('.piqval').forEach(c=>{
+          const isDark2 = ['dark','green','navy','brown','teal','purple'].includes(_currentBg);
+          c.style.setProperty('color', isDark2 ? '#7ab0e8' : '#0a3d7a', 'important');
         });
       });
     }
@@ -1691,12 +1722,15 @@ function applyBgTheme(id, save=true){
     .mname { color: ${goldCol} !important; }
     .hsub { color: ${isDark ? 'rgba(232,192,80,0.85)' : '#3a2a08'} !important; }
     .th { color: ${goldCol} !important; }
+    .th[style*="color:#0a3d7a"] { color: ${isDark ? '#7ab0e8' : '#0a3d7a'} !important; }
     .tbl-hdr { background: ${isDark ? 'rgba(232,192,80,0.08)' : 'rgba(184,134,11,0.06)'} !important; }
     .prow { background: ${rowBg} !important; border-color: ${isDark ? 'rgba(232,192,80,0.15)' : 'rgba(184,134,11,0.15)'} !important; }
     .prow.active { background: ${isDark ? 'rgba(232,192,80,0.2)' : '#fffbef'} !important; border-color: ${goldCol} !important; }
-    .pname, .ptval, .piqval { color: ${txtCol} !important; }
+    .pname, .ptval { color: ${txtCol} !important; }
+    .piqval { color: ${isDark ? '#7ab0e8' : '#0a3d7a'} !important; }
     .prow.active .pname { color: ${goldCol} !important; }
-    .prow.passed .pname, .prow.passed .ptval, .prow.passed .piqval { color: ${txtCol} !important; }
+    .prow.passed .pname, .prow.passed .ptval { color: ${txtCol} !important; }
+    .prow.passed .piqval { color: ${isDark ? '#7ab0e8' : '#0a3d7a'} !important; }
     .gl { background: linear-gradient(90deg,transparent,${isDark ? 'rgba(232,192,80,0.5)' : '#b8860b'},transparent) !important; }
     .date-pill { background: ${isDark ? 'rgba(232,192,80,0.1)' : 'rgba(184,134,11,0.08)'} !important; }
     .date-pill-val { color: ${isDark ? '#e8c050' : '#7a4000'} !important; }
@@ -1705,7 +1739,7 @@ function applyBgTheme(id, save=true){
     .cd-current-name { color: ${goldCol} !important; }
     .cd-box-lbl { color: ${isDark ? 'rgba(232,192,80,0.65)' : '#7a6035'} !important; }
     .cd-azan-time { color: ${isDark ? '#5dcc8a' : '#166630'} !important; }
-    .cd-iqama-time { color: ${isDark ? '#7ab0e8' : '#0f3d7a'} !important; }
+    .cd-iqama-time { color: ${isDark ? '#7ab0e8' : '#0a3d7a'} !important; }
     .ann-label { color: ${goldCol} !important; }
     .ann-marquee span { color: ${txtCol} !important; }
     .ann-marquee-wrap { background: ${rowBg} !important; border-color: ${isDark ? 'rgba(232,192,80,0.3)' : 'rgba(184,134,11,0.25)'} !important; }
@@ -2173,15 +2207,17 @@ function buildGrid(){
   S.pTimes.forEach((t,i)=>{
     const row=document.createElement('div');
     row.className='prow'; row.id=`pr-${i}`;
-    const iqLabel = i===1 ? f2hm(S.iqTimes[i]) : f2hm(S.iqTimes[i]);
+    const iqLabel = f2hm(S.iqTimes[i]);
     const iqColor = i===1 ? 'color:#7a5e00;' : '';
     row.innerHTML=`
-      <div class="pname-cell">
-        <div class="picon">${PICONS[i]}</div>
+      <div style="display:flex;align-items:flex-start;gap:8px;padding-top:8px;padding-right:16px;">
+        <div class="picon" style="flex-shrink:0;margin-top:4px;">${PICONS[i]}</div>
         <div class="pname">${PRAYERS[i]}</div>
       </div>
-      <div class="ptcell"><div class="ptval" id="tv-${i}">${f2hm(t)}</div></div>
-      <div class="piqcell">
+      <div class="ptcell-inner" style="text-align:center; padding-left:40px;">
+        <div class="ptval" id="tv-${i}">${f2hm(t)}</div>
+      </div>
+      <div style="text-align:center;">
         ${HAS_IQ[i]
           ? `<div class="piqval" id="iqv-${i}" style="${iqColor}" onclick="toggleIqEdit(${i})" title="اضغط للتعديل">${iqLabel}</div>
              <div class="iqedit" id="iqedit-${i}">
@@ -2288,7 +2324,7 @@ function tick(){
       if(progAzan) progAzan.style.width = '0%';
       if(progIq)   progIq.style.width   = '0%';
       hideIqamaCdScreen();
-    } else if(secToIq > 120){
+    } else if(secToIq > (S.iqCdMin||2)*60){
       // Between azan and iqama — more than 2 min left
       azanEl.textContent = 'أُذِّن ✓';
       azanEl.className = 'cd-box-time inactive';
@@ -2379,14 +2415,15 @@ function tick(){
     }
   }
 
-  // ── Iqama countdown screen (2 min before) + Aqim screen + screen-off ──
+  // ── Iqama countdown screen (configurable minutes before) + Aqim screen + screen-off ──
   if(active !== -1 && active !== 1 && phase === 'before'){
     const diffSec2 = Math.max(0,(iqM[active]-nowMin)*60);
+    const cdThresh = (S.iqCdMin||2) * 60;
 
-    // 2 minutes before iqama → show fullscreen countdown
-    if(diffSec2 <= 120 && diffSec2 > 5){
+    // X minutes before iqama → show fullscreen countdown
+    if(diffSec2 <= cdThresh && diffSec2 > 5){
       showIqamaCdScreen(active, diffSec2);
-    } else if(diffSec2 > 120){
+    } else if(diffSec2 > cdThresh){
       hideIqamaCdScreen();
     }
 
@@ -2753,6 +2790,7 @@ function openModal(t){
       </div>`;
     });
     document.getElementById('m-azkar-dur').value=S.azkarDur||10;
+    document.getElementById('m-iq-cd-min').value=S.iqCdMin||2;
     buildBgGrid();
   }
   if(t==='azkar') openAzkarModal();
@@ -2779,6 +2817,7 @@ function saveMosque(){S.mosqueName=document.getElementById('in-mosque').value||'
 function saveSettings(){
   PRAYERS.forEach((_,i)=>{const a=document.getElementById(`m-iq-${i}`),b=document.getElementById(`m-sc-${i}`);if(a)S.iqMin[i]=parseInt(a.value)||0;if(b)S.scrMin[i]=parseInt(b.value)||0;});
   S.azkarDur=parseInt(document.getElementById('m-azkar-dur').value)||10;
+  S.iqCdMin=Math.max(1,Math.min(10,parseInt(document.getElementById('m-iq-cd-min').value)||2));
   refreshTimes();buildGrid();saveS();closeModal('settings');
 }
 function onCityChg(){document.getElementById('cloc').style.display=document.getElementById('in-city').value==='custom'?'block':'none';}
