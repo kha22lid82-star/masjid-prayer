@@ -1,4 +1,4 @@
-const CACHE = 'masjid-prayer-v3';
+const CACHE = 'masjid-prayer-v7';
 const FILES = [
   '/',
   '/index.html',
